@@ -104,10 +104,10 @@ Assentos não têm tabela própria: são derivados da sala e marcados como ocupa
 - [x] `database/seed.sql` (usuários, filmes e salas de exemplo)
 
 ### Passo 2 - Configuração e conexão
-- [ ] `config/database.php` - host, porta, banco, usuário e senha (único arquivo a editar na instalação)
-- [ ] `config/app.php` - nome, timezone, intervalo de limpeza
-- [ ] `app/Core/Database.php` - conexão `mysqli` única (singleton)
-- [ ] `public/index.php` - front controller mínimo, testa conexão
+- [x] `config/database.php` - host, porta, banco, usuário e senha (único arquivo a editar na instalação)
+- [x] `config/app.php` - nome, timezone, intervalo de limpeza
+- [x] `app/Core/Database.php` - conexão `mysqli` única (singleton)
+- [x] `public/index.php` - front controller mínimo, testa conexão
 
 ### Passo 3 - Núcleo da aplicação (Core)
 - [ ] `app/Core/Session.php` - iniciar sessão, get/set, mensagens flash
