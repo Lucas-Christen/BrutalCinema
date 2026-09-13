@@ -83,6 +83,7 @@ CREATE TABLE sessoes (
 -- ---------------------------------------------------------------
 -- Ingressos vendidos. Assento = (fileira, numero) dentro da sala.
 -- UNIQUE impede vender o mesmo assento duas vezes na mesma sessão.
+-- Cancelamento exclui o registro, liberando o assento para nova venda.
 -- ---------------------------------------------------------------
 CREATE TABLE ingressos (
     id           INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -94,7 +95,6 @@ CREATE TABLE ingressos (
     cpf_cliente  CHAR(11)         NOT NULL,
     tipo         ENUM('inteira', 'meia') NOT NULL DEFAULT 'inteira',
     valor_pago   DECIMAL(8, 2)    NOT NULL,
-    status       ENUM('vendido', 'cancelado') NOT NULL DEFAULT 'vendido',
     vendido_em   DATETIME         NOT NULL DEFAULT CURRENT_TIMESTAMP,
     UNIQUE KEY uk_ingressos_assento (sessao_id, fileira, numero),
     CONSTRAINT fk_ingressos_sessao  FOREIGN KEY (sessao_id)  REFERENCES sessoes (id)  ON DELETE RESTRICT,
