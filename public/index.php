@@ -17,16 +17,22 @@ require __DIR__ . '/../app/Core/Session.php';
 require __DIR__ . '/../app/Core/Controller.php';
 require __DIR__ . '/../app/Core/Model.php';
 require __DIR__ . '/../app/Core/Validator.php';
+require __DIR__ . '/../app/Core/Auth.php';
+
+// Models
+require __DIR__ . '/../app/Models/Usuario.php';
 
 // Controllers
 require __DIR__ . '/../app/Controllers/ErroController.php';
 require __DIR__ . '/../app/Controllers/InicioController.php';
+require __DIR__ . '/../app/Controllers/AuthController.php';
 
 Session::iniciar();
 
 // Mapa de páginas: valor de ?page= => classe do Controller
 $rotas = [
     'inicio' => InicioController::class,
+    'login'  => AuthController::class,
 ];
 
 $page = $_GET['page'] ?? 'inicio';

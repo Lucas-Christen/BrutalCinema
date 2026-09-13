@@ -1,3 +1,5 @@
-<h1>404 - Página não encontrada</h1>
-<p>O endereço acessado não existe.</p>
-<p><a href="<?= url('inicio') ?>">Voltar ao início</a></p>
+<div class="text-center py-5">
+    <h1 class="display-4 text-brutal">404</h1>
+    <p class="lead">Página não encontrada.</p>
+    <a href="<?= url('inicio') ?>" class="btn btn-primary">Voltar ao início</a>
+</div>
