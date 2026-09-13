@@ -30,7 +30,7 @@ Definido em `database/schema.sql`. Cinco tabelas:
 - `filmes` - catálogo, soft delete via `ativo`
 - `salas` - `fileiras` x `assentos_por_fileira` define a capacidade
 - `sessoes` - filme + sala + horário; `fim` calculado no PHP (duração + limpeza)
-- `ingressos` - assento = (`fileira`, `numero`); UNIQUE por sessão
+- `ingressos` - assento = (`fileira`, `numero`); UNIQUE por sessão; cancelar = excluir (libera o assento)
 
 Assentos não têm tabela própria: são derivados da sala e marcados como ocupados pelos ingressos vendidos.
 
@@ -113,7 +113,7 @@ Assentos não têm tabela própria: são derivados da sala e marcados como ocupa
 - [x] `app/Core/Session.php` - iniciar sessão, get/set, mensagens flash
 - [x] `app/Core/Controller.php` - classe base: `renderizar()`, `redirecionar()`, `dadosPost()`
 - [x] `app/Core/Model.php` - classe base: prepared statements `mysqli`, `todos()`, `buscar()`, `inserir()`, `atualizar()`
-- [x] `app/Core/Validator.php` - regras: obrigatório, tamanho, e-mail, número, data, enum, CPF
+- [x] `app/Core/Validator.php` - regras: obrigatório, tamanho, e-mail, número, data, enum, dígitos
 - [x] Roteamento simples no `index.php` via `?page=` e `?acao=`
 - [x] Página 404 e página de erro genérica
 
@@ -154,14 +154,14 @@ Assentos não têm tabela própria: são derivados da sala e marcados como ocupa
 - [x] Novo usuário recebe perfil `cliente`
 
 ### Passo 9 - Ingressos (formulário 5)
-- [ ] `app/Models/Ingresso.php`
-- [ ] `app/Controllers/IngressoController.php`
-- [ ] Mapa de assentos da sessão (grade fileira x número, ocupados destacados)
-- [ ] Venda pelo funcionário: informa nome e CPF do cliente
-- [ ] Compra pelo cliente: usa dados do próprio usuário
-- [ ] Validações: assento dentro dos limites, assento livre, CPF válido, sessão agendada e futura
-- [ ] `valor_pago` calculado no servidor (meia = 50%)
-- [ ] Tela "meus ingressos" para o cliente
+- [x] `app/Models/Ingresso.php`
+- [x] `app/Controllers/IngressoController.php`
+- [x] Mapa de assentos da sessão (grade fileira x número, ocupados destacados)
+- [x] Venda pelo funcionário: informa nome e CPF do cliente
+- [x] Compra pelo cliente: usa dados do próprio usuário
+- [x] Validações: assento dentro dos limites, assento livre, CPF com 11 dígitos, sessão agendada e futura
+- [x] `valor_pago` calculado no servidor (meia = 50%)
+- [x] Tela "meus ingressos" para o cliente
 
 ### Passo 10 - Usuários (admin)
 - [ ] `app/Controllers/UsuarioController.php`

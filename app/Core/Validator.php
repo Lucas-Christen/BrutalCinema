@@ -129,31 +129,17 @@ class Validator
     }
 
     /**
-     * CPF válido: 11 dígitos, não todos iguais, dígitos verificadores corretos.
+     * Campo deve conter exatamente N dígitos, ignorando pontuação.
+     * Ex.: CPF com máscara "123.456.789-09" tem 11 dígitos.
      */
-    public function cpf(string $campo, string $rotulo): self
+    public function digitos(string $campo, string $rotulo, int $quantidade): self
     {
         if ($this->vazio($campo)) {
             return $this;
         }
-        $cpf = preg_replace('/\D/', '', (string) $this->dados[$campo]);
-
-        if (strlen($cpf) !== 11 || preg_match('/^(\d)\1{10}$/', $cpf)) {
-            $this->adicionarErro($campo, "{$rotulo} inválido.");
-            return $this;
-        }
-
-        // Calcula os dois dígitos verificadores
-        for ($t = 9; $t < 11; $t++) {
-            $soma = 0;
-            for ($i = 0; $i < $t; $i++) {
-                $soma += (int) $cpf[$i] * (($t + 1) - $i);
-            }
-            $digito = ((10 * $soma) % 11) % 10;
-            if ((int) $cpf[$t] !== $digito) {
-                $this->adicionarErro($campo, "{$rotulo} inválido.");
-                return $this;
-            }
+        $somenteDigitos = preg_replace('/\D/', '', (string) $this->dados[$campo]);
+        if (strlen($somenteDigitos) !== $quantidade) {
+            $this->adicionarErro($campo, "{$rotulo} deve ter {$quantidade} dígitos.");
         }
         return $this;
     }

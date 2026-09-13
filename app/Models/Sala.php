@@ -59,8 +59,7 @@ class Sala extends Model
                     COALESCE(MAX(i.numero), 0)            AS numero
              FROM ingressos i
              JOIN sessoes s ON s.id = i.sessao_id
-             WHERE s.sala_id = ? AND i.status = 'vendido'
-               AND s.status = 'agendada' AND s.inicio > NOW()",
+             WHERE s.sala_id = ? AND s.status = 'agendada' AND s.inicio > NOW()",
             [$id]
         );
         return ['fileira' => (int) $linha['fileira'], 'numero' => (int) $linha['numero']];

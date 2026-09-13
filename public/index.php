@@ -24,6 +24,7 @@ require __DIR__ . '/../app/Models/Usuario.php';
 require __DIR__ . '/../app/Models/Filme.php';
 require __DIR__ . '/../app/Models/Sala.php';
 require __DIR__ . '/../app/Models/Sessao.php';
+require __DIR__ . '/../app/Models/Ingresso.php';
 
 // Controllers
 require __DIR__ . '/../app/Controllers/ErroController.php';
@@ -32,16 +33,18 @@ require __DIR__ . '/../app/Controllers/AuthController.php';
 require __DIR__ . '/../app/Controllers/FilmeController.php';
 require __DIR__ . '/../app/Controllers/SalaController.php';
 require __DIR__ . '/../app/Controllers/SessaoController.php';
+require __DIR__ . '/../app/Controllers/IngressoController.php';
 
 Session::iniciar();
 
 // Mapa de páginas: valor de ?page= => classe do Controller
 $rotas = [
-    'inicio'  => InicioController::class,
-    'login'   => AuthController::class,
-    'filmes'  => FilmeController::class,
-    'salas'   => SalaController::class,
-    'sessoes' => SessaoController::class,
+    'inicio'    => InicioController::class,
+    'login'     => AuthController::class,
+    'filmes'    => FilmeController::class,
+    'salas'     => SalaController::class,
+    'sessoes'   => SessaoController::class,
+    'ingressos' => IngressoController::class,
 ];
 
 $page = $_GET['page'] ?? 'inicio';

@@ -65,6 +65,15 @@ abstract class Model
     }
 
     /**
+     * Exclui um registro pela chave primária.
+     */
+    public function excluir(int $id): bool
+    {
+        $stmt = $this->executar("DELETE FROM {$this->tabela} WHERE id = ?", [$id]);
+        return $stmt->affected_rows > 0;
+    }
+
+    /**
      * Executa um SELECT e retorna todas as linhas.
      * @return array<int, array<string, mixed>>
      */

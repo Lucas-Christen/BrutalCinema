@@ -71,3 +71,11 @@ function dataHoraBr(string $dataHora): string
 {
     return date('d/m/Y H:i', strtotime($dataHora));
 }
+
+/**
+ * Formata CPF (11 dígitos) como 000.000.000-00.
+ */
+function cpfFormatado(string $cpf): string
+{
+    return preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1.$2.$3-$4', $cpf);
+}

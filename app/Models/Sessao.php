@@ -64,7 +64,7 @@ class Sessao extends Model
     public function temIngressoVendido(int $id): bool
     {
         $linha = $this->consultarUm(
-            "SELECT COUNT(*) AS total FROM ingressos WHERE sessao_id = ? AND status = 'vendido'",
+            "SELECT COUNT(*) AS total FROM ingressos WHERE sessao_id = ?",
             [$id]
         );
         return (int) $linha['total'] > 0;

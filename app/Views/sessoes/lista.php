@@ -3,8 +3,9 @@
  * Listagem de sessões.
  * Variáveis: $sessoes (linhas com filme_titulo, sala_nome, duracao_min)
  */
-$ehAdmin = Auth::temPerfil('admin');
-$agora   = date('Y-m-d H:i:s');
+$ehAdmin   = Auth::temPerfil('admin');
+$ehCliente = Auth::temPerfil('cliente');
+$agora     = date('Y-m-d H:i:s');
 ?>
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="h3 mb-0"><i class="bi bi-calendar3 text-brutal"></i> Sessões</h1>
@@ -29,7 +30,7 @@ $agora   = date('Y-m-d H:i:s');
                 <th>Idioma</th>
                 <th>Preço</th>
                 <th>Status</th>
-                <?php if ($ehAdmin): ?><th class="text-end">Ações</th><?php endif; ?>
+                <th class="text-end">Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -58,9 +59,14 @@ $agora   = date('Y-m-d H:i:s');
                         <span class="badge text-bg-success">Agendada</span>
                     <?php endif; ?>
                 </td>
-                <?php if ($ehAdmin): ?>
                 <td class="text-end text-nowrap">
                     <?php if ($editavel): ?>
+                        <a href="<?= url('ingressos', $ehCliente ? 'comprar' : 'vender', ['sessao_id' => $s['id']]) ?>"
+                           class="btn btn-sm btn-primary">
+                            <i class="bi bi-ticket-perforated"></i> <?= $ehCliente ? 'Comprar' : 'Vender' ?>
+                        </a>
+                    <?php endif; ?>
+                    <?php if ($ehAdmin && $editavel): ?>
                         <a href="<?= url('sessoes', 'editar', ['id' => $s['id']]) ?>" class="btn btn-sm btn-outline-light">
                             <i class="bi bi-pencil"></i> Editar
                         </a>
@@ -73,7 +79,6 @@ $agora   = date('Y-m-d H:i:s');
                         </form>
                     <?php endif; ?>
                 </td>
-                <?php endif; ?>
             </tr>
         <?php endforeach; ?>
         </tbody>
