@@ -110,12 +110,12 @@ Assentos não têm tabela própria: são derivados da sala e marcados como ocupa
 - [x] `public/index.php` - front controller mínimo, testa conexão
 
 ### Passo 3 - Núcleo da aplicação (Core)
-- [ ] `app/Core/Session.php` - iniciar sessão, get/set, mensagens flash
-- [ ] `app/Core/Controller.php` - classe base: `render()`, `redirect()`
-- [ ] `app/Core/Model.php` - classe base: prepared statements `mysqli`, `find()`, `all()`
-- [ ] `app/Core/Validator.php` - regras: obrigatório, tamanho, e-mail, número, data, enum, CPF
-- [ ] Roteamento simples no `index.php` via `?page=` e `?acao=`
-- [ ] Página 404 e página de erro genérica
+- [x] `app/Core/Session.php` - iniciar sessão, get/set, mensagens flash
+- [x] `app/Core/Controller.php` - classe base: `renderizar()`, `redirecionar()`, `dadosPost()`
+- [x] `app/Core/Model.php` - classe base: prepared statements `mysqli`, `todos()`, `buscar()`, `inserir()`, `atualizar()`
+- [x] `app/Core/Validator.php` - regras: obrigatório, tamanho, e-mail, número, data, enum, CPF
+- [x] Roteamento simples no `index.php` via `?page=` e `?acao=`
+- [x] Página 404 e página de erro genérica
 
 ### Passo 4 - Layout e autenticação
 - [ ] `app/Views/layout/` - cabeçalho, rodapé, menu, exibição de flash (Bootstrap 5)
