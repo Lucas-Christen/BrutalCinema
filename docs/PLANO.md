@@ -140,12 +140,12 @@ Assentos não têm tabela própria: são derivados da sala e marcados como ocupa
 - [x] Regra: não reduzir tamanho se houver ingresso vendido fora do novo limite
 
 ### Passo 7 - Sessões (formulário 3)
-- [ ] `app/Models/Sessao.php`
-- [ ] `app/Controllers/SessaoController.php`
-- [ ] Views: lista com JOIN (título do filme, nome da sala) e formulário
-- [ ] Cálculo de `fim` = início + duração do filme + intervalo de limpeza
-- [ ] Validações: filme e sala existem e estão ativos, início no futuro, preço > 0, idioma válido
-- [ ] Regra: não permitir sobreposição de horário na mesma sala
+- [x] `app/Models/Sessao.php`
+- [x] `app/Controllers/SessaoController.php`
+- [x] Views: lista com JOIN (título do filme, nome da sala) e formulário
+- [x] Cálculo de `fim` = início + duração do filme + intervalo de limpeza
+- [x] Validações: filme e sala existem e estão ativos, início no futuro, preço > 0, idioma válido
+- [x] Regra: não permitir sobreposição de horário na mesma sala
 
 ### Passo 8 - Cadastro de cliente (formulário 4)
 - [ ] `AuthController` - registro público
