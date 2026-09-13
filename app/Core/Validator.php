@@ -36,7 +36,7 @@ class Validator
     public function obrigatorio(string $campo, string $rotulo): self
     {
         if ($this->vazio($campo)) {
-            $this->adicionarErro($campo, "{$rotulo} é obrigatório.");
+            $this->adicionarErro($campo, "{$rotulo} é de preenchimento obrigatório.");
         }
         return $this;
     }

@@ -69,7 +69,7 @@ Assentos não têm tabela própria: são derivados da sala e marcados como ocupa
 | Tela                  | Rota (`?page=`)          | Acesso                    |
 |-----------------------|--------------------------|---------------------------|
 | Login                 | `login`                  | público                   |
-| Cadastro de cliente   | `registro`               | público                   |
+| Cadastro de cliente   | `login&acao=registro`    | público                   |
 | Início (dashboard)    | `inicio`                 | logado                    |
 | Filmes: lista/form    | `filmes`                 | lista: todos; form: admin |
 | Salas: lista/form     | `salas`                  | lista: todos; form: admin |
@@ -148,10 +148,10 @@ Assentos não têm tabela própria: são derivados da sala e marcados como ocupa
 - [x] Regra: não permitir sobreposição de horário na mesma sala
 
 ### Passo 8 - Cadastro de cliente (formulário 4)
-- [ ] `AuthController` - registro público
-- [ ] Tela de cadastro
-- [ ] Validações: nome, e-mail único, senha mínima, confirmação de senha
-- [ ] Novo usuário recebe perfil `cliente`
+- [x] `AuthController` - registro público
+- [x] Tela de cadastro
+- [x] Validações: nome, e-mail único, senha mínima, confirmação de senha
+- [x] Novo usuário recebe perfil `cliente`
 
 ### Passo 9 - Ingressos (formulário 5)
 - [ ] `app/Models/Ingresso.php`
