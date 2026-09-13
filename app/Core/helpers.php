@@ -55,3 +55,19 @@ function feedback(array $erros, string $campo): string
         ? '<div class="invalid-feedback">' . e($erros[$campo]) . '</div>'
         : '';
 }
+
+/**
+ * Formata valor monetário no padrão brasileiro. Ex.: 25.5 => R$ 25,50
+ */
+function moeda(float|string $valor): string
+{
+    return 'R$ ' . number_format((float) $valor, 2, ',', '.');
+}
+
+/**
+ * Formata data/hora vinda do banco (Y-m-d H:i:s) para dd/mm/aaaa hh:mm.
+ */
+function dataHoraBr(string $dataHora): string
+{
+    return date('d/m/Y H:i', strtotime($dataHora));
+}
