@@ -133,11 +133,11 @@ Assentos não têm tabela própria: são derivados da sala e marcados como ocupa
 - [x] Regra: não desativar filme com sessão futura agendada
 
 ### Passo 6 - Salas (formulário 2)
-- [ ] `app/Models/Sala.php`
-- [ ] `app/Controllers/SalaController.php`
-- [ ] Views: lista e formulário
-- [ ] Validações: nome único, fileiras 1..26, assentos por fileira 1..50, tipo válido
-- [ ] Regra: não reduzir tamanho se houver ingresso vendido fora do novo limite
+- [x] `app/Models/Sala.php`
+- [x] `app/Controllers/SalaController.php`
+- [x] Views: lista e formulário
+- [x] Validações: nome único, fileiras 1..26, assentos por fileira 1..50, tipo válido
+- [x] Regra: não reduzir tamanho se houver ingresso vendido fora do novo limite
 
 ### Passo 7 - Sessões (formulário 3)
 - [ ] `app/Models/Sessao.php`

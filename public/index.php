@@ -22,12 +22,14 @@ require __DIR__ . '/../app/Core/Auth.php';
 // Models
 require __DIR__ . '/../app/Models/Usuario.php';
 require __DIR__ . '/../app/Models/Filme.php';
+require __DIR__ . '/../app/Models/Sala.php';
 
 // Controllers
 require __DIR__ . '/../app/Controllers/ErroController.php';
 require __DIR__ . '/../app/Controllers/InicioController.php';
 require __DIR__ . '/../app/Controllers/AuthController.php';
 require __DIR__ . '/../app/Controllers/FilmeController.php';
+require __DIR__ . '/../app/Controllers/SalaController.php';
 
 Session::iniciar();
 
@@ -36,6 +38,7 @@ $rotas = [
     'inicio' => InicioController::class,
     'login'  => AuthController::class,
     'filmes' => FilmeController::class,
+    'salas'  => SalaController::class,
 ];
 
 $page = $_GET['page'] ?? 'inicio';
