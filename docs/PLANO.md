@@ -164,8 +164,9 @@ Assentos não têm tabela própria: são derivados da sala e marcados como ocupa
 - [x] Tela "meus ingressos" para o cliente
 
 ### Passo 10 - Usuários (admin)
-- [ ] `app/Controllers/UsuarioController.php`
-- [ ] Lista de usuários, alterar perfil, ativar/desativar
+- [x] `app/Controllers/UsuarioController.php`
+- [x] Lista de usuários, cadastro/edição (nome, e-mail, perfil, senha opcional na edição), ativar/desativar
+- [x] Regras: admin não desativa a própria conta nem rebaixa o próprio perfil
 
 ### Passo 11 - Documentação e entrega
 - [ ] `README.md`: integrantes e atividades de cada um, requisitos, instalação passo a passo

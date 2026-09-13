@@ -8,6 +8,17 @@ class Usuario extends Model
 
     public const PERFIS = ['admin', 'funcionario', 'cliente'];
 
+    /** @return array<int, array<string, mixed>> */
+    public function todos(string $ordem = 'nome'): array
+    {
+        return parent::todos($ordem);
+    }
+
+    public function alterarAtivo(int $id, bool $ativo): bool
+    {
+        return $this->atualizar($id, ['ativo' => $ativo ? 1 : 0]);
+    }
+
     /** @return array<string, mixed>|null */
     public function buscarPorEmail(string $email): ?array
     {
