@@ -1,8 +1,7 @@
 -- BrutalCinema - Dados iniciais para desenvolvimento e testes
--- Uso: mariadb -u brutal -p brutalcinema < database/seed.sql
+-- Executar depois do schema.sql, no mesmo banco:
+--   mariadb -u brutal -p brutalcinema < database/seed.sql
 -- Senha de todos os usuários: 123456
-
-USE brutalcinema;
 
 INSERT INTO usuarios (nome, email, senha_hash, perfil) VALUES
 ('Administrador', 'admin@brutalcinema.com', '$2y$10$CWJfKyTjt0iwPqvNqaMl8O.vAK9r326YoMqhuo2VBfRmzaLmw.ZDO', 'admin'),
