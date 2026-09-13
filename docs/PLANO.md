@@ -176,7 +176,7 @@ Assentos não têm tabela própria: são derivados da sala e marcados como ocupa
 - [x] Consultas agregadas nos Models (`contarAtivos`, `contarHoje`, `proximas`, `resumoHoje`, `proximosDoUsuario`)
 
 ### Passo 11 - Documentação e entrega
-- [ ] `README.md`: integrantes e atividades de cada um, requisitos, instalação passo a passo
+- [x] `README.md`: integrantes e atividades de cada um, requisitos, instalação passo a passo
       (PHP nativo com `php -S`, e alternativa com XAMPP), configuração do banco, usuários de teste,
       bugs conhecidos e funcionalidades faltantes
 - [ ] Testar instalação do zero em outra máquina seguindo apenas o README

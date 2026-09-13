@@ -1,11 +1,10 @@
 -- BrutalCinema - Estrutura do banco de dados
--- Uso: mariadb -u brutal -p brutalcinema < database/schema.sql
-
-CREATE DATABASE IF NOT EXISTS brutalcinema
-    CHARACTER SET utf8mb4
-    COLLATE utf8mb4_unicode_ci;
-
-USE brutalcinema;
+--
+-- O banco deve existir antes (veja README.md). Este script cria as tabelas
+-- dentro do banco informado na linha de comando, por exemplo:
+--   mariadb -u brutal -p brutalcinema < database/schema.sql
+--
+-- ATENÇÃO: apaga e recria todas as tabelas (perde os dados existentes).
 
 -- Ordem de remoção respeita as chaves estrangeiras
 DROP TABLE IF EXISTS ingressos;
