@@ -38,5 +38,9 @@
                 <i class="bi bi-box-arrow-in-right"></i> Entrar
             </button>
         </form>
+
+        <p class="text-center text-secondary small mt-3 mb-0">
+            Não tem conta? <a href="<?= url('login', 'registro') ?>" class="link-light">Criar conta</a>
+        </p>
     </div>
 </div>
