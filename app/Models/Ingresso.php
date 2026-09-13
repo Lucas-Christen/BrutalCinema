@@ -55,6 +55,38 @@ class Ingresso extends Model
     }
 
     /**
+     * Quantidade e receita dos ingressos vendidos hoje.
+     * @return array{quantidade: int, receita: float}
+     */
+    public function resumoHoje(): array
+    {
+        $linha = $this->consultarUm(
+            "SELECT COUNT(*) AS quantidade, COALESCE(SUM(valor_pago), 0) AS receita
+             FROM {$this->tabela} WHERE DATE(vendido_em) = CURDATE()"
+        );
+        return ['quantidade' => (int) $linha['quantidade'], 'receita' => (float) $linha['receita']];
+    }
+
+    /**
+     * Próximos ingressos (sessões futuras) de um cliente, para o painel inicial.
+     * @return array<int, array<string, mixed>>
+     */
+    public function proximosDoUsuario(int $usuarioId, int $limite = 3): array
+    {
+        return $this->consultar(
+            "SELECT i.fileira, i.numero, s.inicio, f.titulo AS filme_titulo, sa.nome AS sala_nome
+             FROM {$this->tabela} i
+             JOIN sessoes s  ON s.id  = i.sessao_id
+             JOIN filmes  f  ON f.id  = s.filme_id
+             JOIN salas   sa ON sa.id = s.sala_id
+             WHERE i.usuario_id = ? AND s.status = 'agendada' AND s.inicio > NOW()
+             ORDER BY s.inicio
+             LIMIT {$limite}",
+            [$usuarioId]
+        );
+    }
+
+    /**
      * Todos os ingressos com dados da sessão, filme, sala e de quem vendeu.
      * @return array<int, array<string, mixed>>
      */

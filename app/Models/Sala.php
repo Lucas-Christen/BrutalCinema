@@ -22,6 +22,12 @@ class Sala extends Model
         return $this->consultar("SELECT * FROM {$this->tabela} WHERE ativo = 1 ORDER BY nome");
     }
 
+    public function contarAtivas(): int
+    {
+        $linha = $this->consultarUm("SELECT COUNT(*) AS total FROM {$this->tabela} WHERE ativo = 1");
+        return (int) $linha['total'];
+    }
+
     /**
      * Verifica se já existe outra sala com o mesmo nome.
      * $ignorarId evita que a sala em edição conflite com ela mesma.

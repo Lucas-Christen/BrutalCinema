@@ -40,6 +40,40 @@ class Sessao extends Model
     }
 
     /**
+     * Sessões agendadas de hoje (já iniciadas ou não).
+     */
+    public function contarHoje(): int
+    {
+        $linha = $this->consultarUm(
+            "SELECT COUNT(*) AS total FROM {$this->tabela}
+             WHERE status = 'agendada' AND DATE(inicio) = CURDATE()"
+        );
+        return (int) $linha['total'];
+    }
+
+    /**
+     * Próximas sessões agendadas, com ocupação (ingressos vendidos x capacidade).
+     * Usada no painel inicial.
+     * @return array<int, array<string, mixed>>
+     */
+    public function proximas(int $limite = 8): array
+    {
+        return $this->consultar(
+            "SELECT s.id, s.inicio, s.fim, s.preco, s.idioma,
+                    f.titulo AS filme_titulo, f.classificacao,
+                    sa.nome AS sala_nome, sa.tipo AS sala_tipo,
+                    (sa.fileiras * sa.assentos_por_fileira) AS capacidade,
+                    (SELECT COUNT(*) FROM ingressos i WHERE i.sessao_id = s.id) AS vendidos
+             FROM {$this->tabela} s
+             JOIN filmes f  ON f.id  = s.filme_id
+             JOIN salas  sa ON sa.id = s.sala_id
+             WHERE s.status = 'agendada' AND s.inicio > NOW()
+             ORDER BY s.inicio
+             LIMIT {$limite}"
+        );
+    }
+
+    /**
      * Procura outra sessão agendada na mesma sala cujo período se sobreponha
      * ao intervalo [inicio, fim). Retorna a sessão conflitante ou null.
      *

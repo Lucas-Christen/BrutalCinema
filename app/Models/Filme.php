@@ -24,6 +24,12 @@ class Filme extends Model
         return $this->consultar("SELECT * FROM {$this->tabela} WHERE ativo = 1 ORDER BY titulo");
     }
 
+    public function contarAtivos(): int
+    {
+        $linha = $this->consultarUm("SELECT COUNT(*) AS total FROM {$this->tabela} WHERE ativo = 1");
+        return (int) $linha['total'];
+    }
+
     /**
      * Verifica se o filme possui sessão agendada no futuro.
      * Usado para impedir a desativação de filmes em exibição.
