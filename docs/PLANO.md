@@ -168,6 +168,13 @@ Assentos não têm tabela própria: são derivados da sala e marcados como ocupa
 - [x] Lista de usuários, cadastro/edição (nome, e-mail, perfil, senha opcional na edição), ativar/desativar
 - [x] Regras: admin não desativa a própria conta nem rebaixa o próprio perfil
 
+### Passo 10.5 - Painel inicial (dashboard)
+- [x] `InicioController` monta dados conforme o perfil
+- [x] Admin/funcionário: indicadores (filmes ativos, salas ativas, sessões hoje, ingressos e receita de hoje),
+      próximas sessões com barra de ocupação e botão Vender, atalhos por perfil
+- [x] Cliente: próximos ingressos e cards "Em cartaz" com lugares livres e botão Comprar
+- [x] Consultas agregadas nos Models (`contarAtivos`, `contarHoje`, `proximas`, `resumoHoje`, `proximosDoUsuario`)
+
 ### Passo 11 - Documentação e entrega
 - [ ] `README.md`: integrantes e atividades de cada um, requisitos, instalação passo a passo
       (PHP nativo com `php -S`, e alternativa com XAMPP), configuração do banco, usuários de teste,
