@@ -100,7 +100,7 @@ class Validator
         }
         $data = DateTime::createFromFormat($formato, (string) $this->dados[$campo]);
         if ($data === false || $data->format($formato) !== $this->dados[$campo]) {
-            $this->adicionarErro($campo, "{$rotulo} inválida.");
+            $this->adicionarErro($campo, "{$rotulo} com valor inválido.");
         }
         return $this;
     }
@@ -112,7 +112,7 @@ class Validator
     public function opcoes(string $campo, string $rotulo, array $opcoes): self
     {
         if (!$this->vazio($campo) && !in_array((string) $this->dados[$campo], $opcoes, true)) {
-            $this->adicionarErro($campo, "{$rotulo} inválido.");
+            $this->adicionarErro($campo, "{$rotulo} com valor inválido.");
         }
         return $this;
     }
