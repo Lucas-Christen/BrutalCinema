@@ -10,3 +10,4 @@ $classes = ['sucesso' => 'alert-success', 'erro' => 'alert-danger', 'aviso' => '
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
     </div>
 <?php endforeach; ?>
+<?php unset($classes, $tipo, $mensagem); ?>

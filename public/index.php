@@ -34,6 +34,7 @@ require __DIR__ . '/../app/Controllers/FilmeController.php';
 require __DIR__ . '/../app/Controllers/SalaController.php';
 require __DIR__ . '/../app/Controllers/SessaoController.php';
 require __DIR__ . '/../app/Controllers/IngressoController.php';
+require __DIR__ . '/../app/Controllers/UsuarioController.php';
 
 Session::iniciar();
 
@@ -45,6 +46,7 @@ $rotas = [
     'salas'     => SalaController::class,
     'sessoes'   => SessaoController::class,
     'ingressos' => IngressoController::class,
+    'usuarios'  => UsuarioController::class,
 ];
 
 $page = $_GET['page'] ?? 'inicio';

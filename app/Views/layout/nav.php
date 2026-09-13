@@ -2,8 +2,8 @@
 /**
  * Menu superior. Itens variam conforme o perfil do usuário logado.
  */
-$usuario = Auth::usuario();
-$paginaAtual = $_GET['page'] ?? 'inicio';
+$usuarioLogado = Auth::usuario();
+$paginaAtual   = $_GET['page'] ?? 'inicio';
 
 // [rótulo, page, ícone, perfis com acesso (vazio = todos os logados)]
 $itens = [
@@ -37,8 +37,8 @@ $itens = [
             </ul>
             <div class="d-flex align-items-center gap-3">
                 <span class="text-secondary small">
-                    <i class="bi bi-person-circle"></i> <?= e($usuario['nome']) ?>
-                    <span class="badge text-bg-secondary ms-1"><?= e($usuario['perfil']) ?></span>
+                    <i class="bi bi-person-circle"></i> <?= e($usuarioLogado['nome']) ?>
+                    <span class="badge text-bg-secondary ms-1"><?= e($usuarioLogado['perfil']) ?></span>
                 </span>
                 <form method="post" action="<?= url('login', 'sair') ?>">
                     <button type="submit" class="btn btn-outline-light btn-sm">
@@ -49,3 +49,7 @@ $itens = [
         </div>
     </div>
 </nav>
+<?php
+// Variáveis do menu não devem vazar para a view que será incluída em seguida
+unset($usuarioLogado, $paginaAtual, $itens, $rotulo, $page, $icone, $perfis);
+?>
