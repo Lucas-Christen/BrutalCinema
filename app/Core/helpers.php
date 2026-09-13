@@ -35,3 +35,23 @@ function config(string $chave, mixed $padrao = null): mixed
     }
     return $app[$chave] ?? $padrao;
 }
+
+/**
+ * Retorna a classe CSS 'is-invalid' se o campo tiver erro de validação.
+ * @param array<string, string> $erros
+ */
+function classeInvalida(array $erros, string $campo): string
+{
+    return isset($erros[$campo]) ? 'is-invalid' : '';
+}
+
+/**
+ * Renderiza a mensagem de erro de um campo (ou nada, se não houver).
+ * @param array<string, string> $erros
+ */
+function feedback(array $erros, string $campo): string
+{
+    return isset($erros[$campo])
+        ? '<div class="invalid-feedback">' . e($erros[$campo]) . '</div>'
+        : '';
+}

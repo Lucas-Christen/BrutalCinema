@@ -126,11 +126,11 @@ Assentos não têm tabela própria: são derivados da sala e marcados como ocupa
 - [x] Menu muda conforme perfil logado
 
 ### Passo 5 - Filmes (formulário 1)
-- [ ] `app/Models/Filme.php`
-- [ ] `app/Controllers/FilmeController.php` - listar, criar, editar, desativar
-- [ ] Views: lista (tabela) e formulário (criar/editar reaproveitam a mesma view)
-- [ ] Validações: título obrigatório, duração entre 1 e 600, classificação válida, ano válido
-- [ ] Regra: não desativar filme com sessão futura agendada
+- [x] `app/Models/Filme.php`
+- [x] `app/Controllers/FilmeController.php` - listar, criar, editar, desativar
+- [x] Views: lista (tabela) e formulário (criar/editar reaproveitam a mesma view)
+- [x] Validações: título obrigatório, duração entre 1 e 600, classificação válida, ano válido
+- [x] Regra: não desativar filme com sessão futura agendada
 
 ### Passo 6 - Salas (formulário 2)
 - [ ] `app/Models/Sala.php`
