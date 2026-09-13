@@ -23,3 +23,15 @@ function url(string $page, string $acao = '', array $params = []): string
     }
     return 'index.php?' . http_build_query($query + $params);
 }
+
+/**
+ * Lê um valor de config/app.php. Ex.: config('nome')
+ */
+function config(string $chave, mixed $padrao = null): mixed
+{
+    static $app = null;
+    if ($app === null) {
+        $app = require __DIR__ . '/../../config/app.php';
+    }
+    return $app[$chave] ?? $padrao;
+}

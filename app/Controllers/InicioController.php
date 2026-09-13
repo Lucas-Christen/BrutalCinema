@@ -6,6 +6,8 @@ class InicioController extends Controller
 {
     public function index(): void
     {
+        Auth::exigirLogin();
+
         $this->renderizar('inicio/index', ['titulo' => 'Início']);
     }
 }

@@ -118,12 +118,12 @@ Assentos não têm tabela própria: são derivados da sala e marcados como ocupa
 - [x] Página 404 e página de erro genérica
 
 ### Passo 4 - Layout e autenticação
-- [ ] `app/Views/layout/` - cabeçalho, rodapé, menu, exibição de flash (Bootstrap 5)
-- [ ] `app/Core/Auth.php` - login, logout, usuário logado, `exigirLogin()`, `exigirPerfil()`
-- [ ] `app/Models/Usuario.php`
-- [ ] `app/Controllers/AuthController.php` - login e logout
-- [ ] Tela de login com validação e mensagens de erro
-- [ ] Menu muda conforme perfil logado
+- [x] `app/Views/layout/` - cabeçalho, rodapé, menu, exibição de flash (Bootstrap 5)
+- [x] `app/Core/Auth.php` - login, logout, usuário logado, `exigirLogin()`, `exigirPerfil()`
+- [x] `app/Models/Usuario.php`
+- [x] `app/Controllers/AuthController.php` - login e logout
+- [x] Tela de login com validação e mensagens de erro
+- [x] Menu muda conforme perfil logado
 
 ### Passo 5 - Filmes (formulário 1)
 - [ ] `app/Models/Filme.php`
