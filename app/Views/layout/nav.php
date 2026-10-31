@@ -1,11 +1,12 @@
 <?php
 use App\Core\Auth;
+use App\Core\Router;
 
 /**
  * Menu superior. Itens variam conforme o perfil do usuário logado.
  */
 $usuarioLogado = Auth::usuario();
-$paginaAtual   = $_GET['page'] ?? 'inicio';
+$paginaAtual   = Router::paginaAtual();
 
 // [rótulo, page, ícone, perfis com acesso (vazio = todos os logados)]
 $itens = [
