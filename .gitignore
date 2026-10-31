@@ -7,3 +7,6 @@ Thumbs.db
 
 # Composer (Trabalho 2)
 vendor/
+
+# Configuração local (modelo em .env.example)
+.env
