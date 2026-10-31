@@ -6,6 +6,7 @@ class SessaoController extends Controller
 {
     private const FORMATO_INPUT = 'Y-m-d\TH:i';   // enviado por <input type="datetime-local">
     private const FORMATO_BANCO = 'Y-m-d H:i:s';
+    private const PRECO_MAXIMO  = 999999.99;      // limite da coluna DECIMAL(8, 2)
 
     private Sessao $sessoes;
 
@@ -107,7 +108,7 @@ class SessaoController extends Controller
         $v->obrigatorio('filme_id', 'Filme')->inteiro('filme_id', 'Filme', 1)
           ->obrigatorio('sala_id', 'Sala')->inteiro('sala_id', 'Sala', 1)
           ->obrigatorio('inicio', 'Início')->dataHora('inicio', 'Início', self::FORMATO_INPUT)
-          ->obrigatorio('preco', 'Preço')->decimal('preco', 'Preço', 0.01)
+          ->obrigatorio('preco', 'Preço')->decimal('preco', 'Preço', 0.01, self::PRECO_MAXIMO)
           ->obrigatorio('idioma', 'Idioma')->opcoes('idioma', 'Idioma', Sessao::IDIOMAS);
         $erros = $v->erros();
 

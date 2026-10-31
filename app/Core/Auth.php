@@ -31,6 +31,30 @@ class Auth
         Session::destruir();
     }
 
+    /**
+     * Atualiza os dados da sessão a partir do banco a cada requisição.
+     * Assim, conta desativada perde o acesso e mudança de perfil vale na hora.
+     */
+    public static function sincronizar(): void
+    {
+        if (!self::logado()) {
+            return;
+        }
+
+        $usuario = (new Usuario())->buscar(self::id());
+
+        if ($usuario === null || (int) $usuario['ativo'] !== 1) {
+            Session::remover(self::CHAVE);
+            return;
+        }
+
+        Session::set(self::CHAVE, [
+            'id'     => (int) $usuario['id'],
+            'nome'   => $usuario['nome'],
+            'perfil' => $usuario['perfil'],
+        ]);
+    }
+
     public static function logado(): bool
     {
         return Session::tem(self::CHAVE);

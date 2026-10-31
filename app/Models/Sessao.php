@@ -95,6 +95,49 @@ class Sessao extends Model
         );
     }
 
+    /**
+     * Verifica se alguma sessão futura do filme entraria em conflito caso
+     * passasse a ocupar a sala por $minutos. Retorna o conflito (com o início
+     * da sessão afetada em sessao_inicio) ou null.
+     *
+     * @return array<string, mixed>|null
+     */
+    public function buscarConflitoAoRecalcular(int $filmeId, int $minutos): ?array
+    {
+        $sessoes = $this->consultar(
+            "SELECT id, sala_id, inicio, DATE_ADD(inicio, INTERVAL ? MINUTE) AS novo_fim
+             FROM {$this->tabela}
+             WHERE filme_id = ? AND status = 'agendada' AND inicio > NOW()
+             ORDER BY inicio",
+            [$minutos, $filmeId]
+        );
+
+        foreach ($sessoes as $sessao) {
+            $conflito = $this->buscarConflito(
+                (int) $sessao['sala_id'],
+                $sessao['inicio'],
+                $sessao['novo_fim'],
+                (int) $sessao['id']
+            );
+            if ($conflito !== null) {
+                return $conflito + ['sessao_inicio' => $sessao['inicio']];
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Atualiza o término das sessões futuras do filme após mudança de duração.
+     */
+    public function recalcularFim(int $filmeId, int $minutos): void
+    {
+        $this->executar(
+            "UPDATE {$this->tabela} SET fim = DATE_ADD(inicio, INTERVAL ? MINUTE)
+             WHERE filme_id = ? AND status = 'agendada' AND inicio > NOW()",
+            [$minutos, $filmeId]
+        );
+    }
+
     public function temIngressoVendido(int $id): bool
     {
         $linha = $this->consultarUm(

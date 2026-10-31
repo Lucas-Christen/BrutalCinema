@@ -208,11 +208,11 @@ BrutalCinema/
 
 Todas verificadas em PHP, no servidor. A validação HTML5 está desativada nos formulários (`novalidate`) justamente para que a do servidor seja exercitada.
 
-**Filmes**: título 2–150 caracteres; duração 1–600 min; classificação entre L/10/12/14/16/18; gênero obrigatório; ano entre 1888 e o ano atual + 2. Não pode ser desativado se tiver sessão futura agendada.
+**Filmes**: título 2–150 caracteres; duração 1–600 min; classificação entre L/10/12/14/16/18; gênero obrigatório; ano entre 1901 (limite da coluna `YEAR`) e o ano atual + 2. Não pode ser desativado se tiver sessão futura agendada. Alterar a duração recalcula o término das sessões futuras e é bloqueado se isso causar conflito de horário.
 
 **Salas**: nome único; 1–26 fileiras (letras A–Z); 1–50 assentos por fileira; tipo 2D/3D/IMAX. Capacidade é calculada, não armazenada. Não pode ser desativada com sessão futura, nem reduzida abaixo de um assento já vendido em sessão futura.
 
-**Sessões**: filme e sala devem existir e estar ativos; início no futuro; preço maior que zero; idioma dublado/legendado. O término é calculado no servidor: início + duração do filme + intervalo de limpeza. **Não pode haver sobreposição de horário na mesma sala** (a mensagem informa qual sessão conflita). Sessão com ingressos vendidos não pode trocar de sala nem ser cancelada.
+**Sessões**: filme e sala devem existir e estar ativos; início no futuro; preço de R$ 0,01 a R$ 999.999,99; idioma dublado/legendado. O término é calculado no servidor: início + duração do filme + intervalo de limpeza. **Não pode haver sobreposição de horário na mesma sala** (a mensagem informa qual sessão conflita). Sessão com ingressos vendidos não pode trocar de sala nem ser cancelada.
 
 **Ingressos**: sessão deve estar agendada e no futuro; de 1 a 10 assentos por operação, cada um no formato `A-5`, dentro dos limites da sala e livre; CPF com 11 dígitos; tipo inteira/meia. O valor pago é calculado no servidor (meia = 50%). Os ingressos de uma operação são gravados em **transação**: se um falhar, nenhum é salvo. A tabela tem `UNIQUE (sessao_id, fileira, numero)`, então o banco impede venda dupla mesmo em acesso simultâneo; nesse caso o usuário recebe uma mensagem amigável.
 

@@ -4,6 +4,8 @@
  */
 class FilmeController extends Controller
 {
+    private const ANO_MINIMO = 1901;   // menor valor aceito pela coluna YEAR
+
     private Filme $filmes;
 
     public function __construct()
@@ -64,7 +66,7 @@ class FilmeController extends Controller
 
         $dados = $this->dadosPost();
         $id    = (int) ($dados['id'] ?? 0);
-        $erros = $this->validar($dados);
+        $erros = $this->validar($dados, $id);
 
         if ($erros !== []) {
             // Reexibe o formulário com os valores digitados e os erros
@@ -87,6 +89,7 @@ class FilmeController extends Controller
 
         if ($id > 0) {
             $this->filmes->atualizar($id, $registro);
+            (new Sessao())->recalcularFim($id, $registro['duracao_min'] + (int) config('intervalo_limpeza_min'));
             Session::flash('sucesso', 'Filme atualizado com sucesso.');
         } else {
             $this->filmes->inserir($registro);
@@ -134,7 +137,7 @@ class FilmeController extends Controller
      * Regras de validação do formulário.
      * @return array<string, string> campo => mensagem
      */
-    private function validar(array $dados): array
+    private function validar(array $dados, int $id): array
     {
         $anoMaximo = (int) date('Y') + 2;
 
@@ -144,9 +147,25 @@ class FilmeController extends Controller
           ->obrigatorio('duracao_min', 'Duração')->inteiro('duracao_min', 'Duração', 1, 600)
           ->obrigatorio('classificacao', 'Classificação')->opcoes('classificacao', 'Classificação', Filme::CLASSIFICACOES)
           ->obrigatorio('genero', 'Gênero')->tamanho('genero', 'Gênero', 2, 50)
-          ->inteiro('ano_lancamento', 'Ano de lançamento', 1888, $anoMaximo);
+          ->inteiro('ano_lancamento', 'Ano de lançamento', self::ANO_MINIMO, $anoMaximo);
+        $erros = $v->erros();
 
-        return $v->erros();
+        // Na edição, a nova duração não pode fazer uma sessão futura invadir a seguinte
+        if ($id > 0 && !isset($erros['duracao_min'])) {
+            $minutos  = (int) $dados['duracao_min'] + (int) config('intervalo_limpeza_min');
+            $conflito = (new Sessao())->buscarConflitoAoRecalcular($id, $minutos);
+
+            if ($conflito !== null) {
+                $erros['duracao_min'] = sprintf(
+                    'Esta duração causaria conflito em %s com "%s", às %s.',
+                    dataHoraBr($conflito['sessao_inicio']),
+                    $conflito['filme_titulo'],
+                    date('H:i', strtotime($conflito['inicio']))
+                );
+            }
+        }
+
+        return $erros;
     }
 
     /**

@@ -53,8 +53,16 @@ $page = $_GET['page'] ?? 'inicio';
 $acao = $_GET['acao'] ?? 'index';
 
 try {
-    // Página desconhecida ou método inexistente => 404
-    if (!isset($rotas[$page]) || !method_exists($rotas[$page], $acao)) {
+    Auth::sincronizar();
+
+    // Parâmetro que não seja texto, página desconhecida ou ação inválida => 404.
+    // Só métodos públicos são ações; __construct e outros métodos mágicos ficam de fora.
+    $rotaValida = is_string($page) && is_string($acao)
+        && isset($rotas[$page])
+        && !str_starts_with($acao, '__')
+        && in_array($acao, get_class_methods($rotas[$page]), true);
+
+    if (!$rotaValida) {
         (new ErroController())->naoEncontrado();
         exit;
     }
@@ -63,7 +71,7 @@ try {
     $controller->$acao();
 
 } catch (Throwable $e) {
-    error_log($e);
+    error_log((string) $e);
     $detalhe = $app['debug'] ? $e->getMessage() : '';
     (new ErroController())->interno($detalhe);
 }

@@ -75,7 +75,7 @@ class Validator
         return $this;
     }
 
-    public function decimal(string $campo, string $rotulo, ?float $min = null): self
+    public function decimal(string $campo, string $rotulo, ?float $min = null, ?float $max = null): self
     {
         if ($this->vazio($campo)) {
             return $this;
@@ -86,6 +86,8 @@ class Validator
             $this->adicionarErro($campo, "{$rotulo} deve ser um número.");
         } elseif ($min !== null && $valor < $min) {
             $this->adicionarErro($campo, "{$rotulo} deve ser maior ou igual a {$min}.");
+        } elseif ($max !== null && $valor > $max) {
+            $this->adicionarErro($campo, "{$rotulo} deve ser menor ou igual a {$max}.");
         }
         return $this;
     }

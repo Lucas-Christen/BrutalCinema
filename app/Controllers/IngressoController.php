@@ -76,6 +76,8 @@ class IngressoController extends Controller
 
             if ($ingresso === null) {
                 Session::flash('erro', 'Ingresso não encontrado ou já cancelado.');
+            } elseif ($this->sessoes->buscar((int) $ingresso['sessao_id'])['inicio'] <= date('Y-m-d H:i:s')) {
+                Session::flash('erro', 'Não é possível cancelar: a sessão já começou.');
             } else {
                 $this->ingressos->excluir($id);
                 Session::flash('sucesso', "Ingresso {$ingresso['fileira']}{$ingresso['numero']} cancelado. Assento liberado.");

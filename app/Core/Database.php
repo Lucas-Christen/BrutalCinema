@@ -28,6 +28,9 @@ class Database
                 $config['port']
             );
             self::$conexao->set_charset($config['charset']);
+
+            // NOW() e CURDATE() seguem o mesmo fuso configurado no PHP
+            self::$conexao->query("SET time_zone = '" . date('P') . "'");
         }
 
         return self::$conexao;
