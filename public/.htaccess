@@ -1,0 +1,5 @@
+# Envia ao front controller toda URL que não seja um arquivo ou pasta real
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]

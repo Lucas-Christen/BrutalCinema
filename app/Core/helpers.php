@@ -1,4 +1,6 @@
 <?php
+use App\Core\Router;
+
 /**
  * Funções auxiliares curtas, usadas principalmente nas Views.
  */
@@ -12,16 +14,21 @@ function e(mixed $valor): string
 }
 
 /**
- * Monta uma URL interna da aplicação.
- * Ex.: url('filmes', 'editar', ['id' => 3]) => index.php?page=filmes&acao=editar&id=3
+ * Monta uma URL interna da aplicação a partir da tabela de rotas.
+ * Ex.: url('filmes', 'editar', ['id' => 3]) => /filmes/3/editar
  */
 function url(string $page, string $acao = '', array $params = []): string
 {
-    $query = ['page' => $page];
-    if ($acao !== '') {
-        $query['acao'] = $acao;
-    }
-    return 'index.php?' . http_build_query($query + $params);
+    return Router::url($page, $acao, $params);
+}
+
+/**
+ * Monta o caminho de um arquivo da pasta public.
+ * Ex.: asset('css/estilo.css') => /css/estilo.css
+ */
+function asset(string $arquivo): string
+{
+    return Router::base() . '/' . $arquivo;
 }
 
 /**

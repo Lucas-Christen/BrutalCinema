@@ -82,13 +82,13 @@ URL inexistente, ou método HTTP não permitido, mostra a página 404.
 - Pronto quando: sem `.env`, a aplicação mostra um erro claro; com ele, funciona normalmente.
 
 ### Passo 4 - Rotas com URL transparente
-- [ ] `app/Core/Router.php` sobre o `fast-route` e `config/rotas.php` com a tabela acima
-- [ ] Despachar pelo caminho da URL, mantendo `Auth::sincronizar()` e o tratamento 404/500
-- [ ] Reescrever `url()` em `app/Core/helpers.php`, com suporte a subpasta para o XAMPP
-- [ ] Criar `asset()` e usá-lo em `header.php` e `footer.php`
-- [ ] Ajustar o menu ativo em `app/Views/layout/nav.php`
-- [ ] Ajustar os links de `vender` e `comprar`
-- [ ] Criar `public/.htaccess`
+- [x] `app/Core/Router.php` sobre o `fast-route` e `config/rotas.php` com a tabela acima
+- [x] Despachar pelo caminho da URL, mantendo `Auth::sincronizar()` e o tratamento 404/500
+- [x] Reescrever `url()` em `app/Core/helpers.php`, com suporte a subpasta para o XAMPP
+- [x] Criar `asset()` e usá-lo em `header.php` e `footer.php`
+- [x] Ajustar o menu ativo em `app/Views/layout/nav.php`
+- [x] Ajustar os links de `vender` e `comprar`
+- [x] Criar `public/.htaccess`
 - Pronto quando: a navegação usa URLs limpas, CSS e JS carregam em rotas profundas e não sobra
   `index.php?page=`.
 
