@@ -1,4 +1,8 @@
 <?php
+namespace App\Core;
+
+use DateTime;
+
 /**
  * Validação de dados vindos de formulários.
  *

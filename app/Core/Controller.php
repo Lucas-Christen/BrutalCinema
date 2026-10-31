@@ -1,4 +1,8 @@
 <?php
+namespace App\Core;
+
+use RuntimeException;
+
 /**
  * Classe base de todos os Controllers.
  *

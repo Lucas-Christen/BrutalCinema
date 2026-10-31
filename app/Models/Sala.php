@@ -1,4 +1,8 @@
 <?php
+namespace App\Models;
+
+use App\Core\Model;
+
 /**
  * Acesso à tabela salas.
  * Capacidade não é armazenada: é fileiras * assentos_por_fileira.

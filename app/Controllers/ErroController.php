@@ -1,4 +1,8 @@
 <?php
+namespace App\Controllers;
+
+use App\Core\Controller;
+
 /**
  * Páginas de erro da aplicação.
  */

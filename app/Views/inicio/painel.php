@@ -1,4 +1,6 @@
 <?php
+use App\Core\Auth;
+
 /**
  * Painel de admin e funcionário.
  * Variáveis: $filmesAtivos, $salasAtivas, $sessoesHoje, $vendasHoje (quantidade, receita), $proximas

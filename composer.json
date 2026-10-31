@@ -1,0 +1,19 @@
+{
+    "name": "lucas-christen/brutalcinema",
+    "description": "Sistema de gestão de cinema - Programação Web UTFPR",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.1",
+        "ext-mbstring": "*",
+        "ext-mysqli": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        },
+        "files": [
+            "app/Core/helpers.php"
+        ]
+    }
+}

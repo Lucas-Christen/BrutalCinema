@@ -187,6 +187,8 @@ Assentos não têm tabela própria: são derivados da sala e marcados como ocupa
 
 ## Trabalho 2 - Direção (detalhar após entrega do T1)
 
+Detalhado em [PLANO2.md](PLANO2.md), que substitui esta seção como plano do Trabalho 2.
+
 - Composer com autoload PSR-4 e namespaces (`App\Core`, `App\Models`, ...)
 - Router com URL transparente (`/filmes/3/editar`) e `.htaccess` ou script de rotas do `php -S`
 - Migrar `mysqli` para PDO

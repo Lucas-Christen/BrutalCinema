@@ -1,4 +1,6 @@
 <?php
+use App\Models\Sala;
+
 /**
  * Formulário de sala, usado para criar e editar.
  * Variáveis: $titulo, $sala (valores atuais ou digitados), $erros

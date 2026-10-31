@@ -1,4 +1,12 @@
 <?php
+namespace App\Controllers;
+
+use App\Core\Auth;
+use App\Core\Controller;
+use App\Core\Session;
+use App\Core\Validator;
+use App\Models\Usuario;
+
 /**
  * Gestão de usuários. Acesso exclusivo do admin.
  * Permite cadastrar funcionários/admins, alterar perfil e ativar/desativar contas.

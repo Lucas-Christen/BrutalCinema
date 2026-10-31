@@ -1,4 +1,15 @@
 <?php
+namespace App\Controllers;
+
+use App\Core\Auth;
+use App\Core\Controller;
+use App\Core\Session;
+use App\Core\Validator;
+use App\Models\Filme;
+use App\Models\Sala;
+use App\Models\Sessao;
+use DateTime;
+
 /**
  * CRUD de sessões. Listagem aberta a todos os logados; alterações só para admin.
  */

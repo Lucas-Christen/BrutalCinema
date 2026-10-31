@@ -1,4 +1,6 @@
 <?php
+use App\Core\Auth;
+
 /**
  * Listagem de salas.
  * Variáveis: $salas (array de linhas)

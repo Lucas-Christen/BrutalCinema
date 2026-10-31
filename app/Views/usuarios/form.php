@@ -1,4 +1,6 @@
 <?php
+use App\Models\Usuario;
+
 /**
  * Formulário de usuário (admin), usado para criar e editar.
  * Variáveis: $titulo, $usuario, $erros

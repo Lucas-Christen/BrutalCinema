@@ -1,4 +1,8 @@
 <?php
+namespace App\Models;
+
+use App\Core\Model;
+
 /**
  * Acesso à tabela sessoes.
  * Uma sessão é um filme exibido em uma sala em um horário.

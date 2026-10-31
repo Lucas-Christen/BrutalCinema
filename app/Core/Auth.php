@@ -1,4 +1,8 @@
 <?php
+namespace App\Core;
+
+use App\Models\Usuario;
+
 /**
  * Controle de autenticação e autorização baseado em sessão.
  *

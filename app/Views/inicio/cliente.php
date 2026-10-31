@@ -1,4 +1,6 @@
 <?php
+use App\Core\Auth;
+
 /**
  * Página inicial do cliente: sessões em cartaz e próximos ingressos.
  * Variáveis: $sessoes (próximas, com vendidos e capacidade), $ingressos (próximos do cliente)

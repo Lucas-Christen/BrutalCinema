@@ -1,4 +1,8 @@
 <?php
+namespace App\Models;
+
+use App\Core\Model;
+
 /**
  * Acesso à tabela usuarios.
  */

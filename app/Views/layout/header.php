@@ -1,4 +1,6 @@
 <?php
+use App\Core\Auth;
+
 /**
  * Abertura do HTML, CSS e menu.
  * Variáveis disponíveis: $titulo (string), $flash (array tipo => mensagem)

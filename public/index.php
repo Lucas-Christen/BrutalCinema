@@ -7,34 +7,21 @@
  */
 declare(strict_types=1);
 
+use App\Controllers\AuthController;
+use App\Controllers\ErroController;
+use App\Controllers\FilmeController;
+use App\Controllers\IngressoController;
+use App\Controllers\InicioController;
+use App\Controllers\SalaController;
+use App\Controllers\SessaoController;
+use App\Controllers\UsuarioController;
+use App\Core\Auth;
+use App\Core\Session;
+
+require __DIR__ . '/../vendor/autoload.php';
+
 $app = require __DIR__ . '/../config/app.php';
 date_default_timezone_set($app['timezone']);
-
-// Núcleo
-require __DIR__ . '/../app/Core/helpers.php';
-require __DIR__ . '/../app/Core/Database.php';
-require __DIR__ . '/../app/Core/Session.php';
-require __DIR__ . '/../app/Core/Controller.php';
-require __DIR__ . '/../app/Core/Model.php';
-require __DIR__ . '/../app/Core/Validator.php';
-require __DIR__ . '/../app/Core/Auth.php';
-
-// Models
-require __DIR__ . '/../app/Models/Usuario.php';
-require __DIR__ . '/../app/Models/Filme.php';
-require __DIR__ . '/../app/Models/Sala.php';
-require __DIR__ . '/../app/Models/Sessao.php';
-require __DIR__ . '/../app/Models/Ingresso.php';
-
-// Controllers
-require __DIR__ . '/../app/Controllers/ErroController.php';
-require __DIR__ . '/../app/Controllers/InicioController.php';
-require __DIR__ . '/../app/Controllers/AuthController.php';
-require __DIR__ . '/../app/Controllers/FilmeController.php';
-require __DIR__ . '/../app/Controllers/SalaController.php';
-require __DIR__ . '/../app/Controllers/SessaoController.php';
-require __DIR__ . '/../app/Controllers/IngressoController.php';
-require __DIR__ . '/../app/Controllers/UsuarioController.php';
 
 Session::iniciar();
 

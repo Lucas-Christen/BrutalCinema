@@ -1,4 +1,6 @@
 <?php
+use App\Models\Sessao;
+
 /**
  * Formulário de sessão, usado para criar e editar.
  * Variáveis: $titulo, $sessao, $erros, $filmes (ativos), $salas (ativas)
