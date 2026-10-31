@@ -1,4 +1,6 @@
 <?php
+use App\Core\Auth;
+
 /**
  * Listagem de filmes.
  * Variáveis: $filmes (array de linhas)

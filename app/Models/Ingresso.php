@@ -1,4 +1,9 @@
 <?php
+namespace App\Models;
+
+use App\Core\Model;
+use mysqli_sql_exception;
+
 /**
  * Acesso à tabela ingressos.
  * Um ingresso ocupa um assento (fileira + número) de uma sessão.

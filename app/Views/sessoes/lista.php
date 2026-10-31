@@ -1,4 +1,6 @@
 <?php
+use App\Core\Auth;
+
 /**
  * Listagem de sessões.
  * Variáveis: $sessoes (linhas com filme_titulo, sala_nome, duracao_min)

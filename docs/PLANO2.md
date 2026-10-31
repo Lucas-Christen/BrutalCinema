@@ -5,7 +5,7 @@ Entrega: **03/11/2026**. Este arquivo acompanha o andamento do Trabalho 2.
 
 ## Regras gerais
 
-- Um passo por vez. Ao fim de cada passo: testar, fazer o commit e aguardar conferência antes de seguir.
+- Um passo por vez. Ao fim de cada passo: testar e aguardar conferência. Os commits são feitos pelo Lucas.
 - Nada é adicionado sem estar previsto aqui. Se o plano mudar, atualizar este arquivo primeiro.
 - Sem Laravel ou outro framework PHP. Bibliotecas pontuais via Composer são permitidas.
 - `schema.sql` e `seed.sql` não mudam, e os dados atuais são preservados.
@@ -58,12 +58,12 @@ URL inexistente, ou método HTTP não permitido, mostra a página 404.
 - [ ] Registrar aqui os pontos levantados pelo professor na apresentação do T1, se houver
 
 ### Passo 1 - Composer, autoload e namespaces
-- [ ] `composer.json` com PSR-4 (`App\\` → `app/`) e `app/Core/helpers.php` em `files`
-- [ ] Versionar `composer.lock`
-- [ ] `namespace` e `use` em `app/Core`, `app/Controllers` e `app/Models`
-- [ ] Importar as classes nas 13 views que as usam
-- [ ] Tratar classes globais (`DateTime`, `RuntimeException`, `Throwable`)
-- [ ] Trocar os `require` manuais de `public/index.php` por `vendor/autoload.php`
+- [x] `composer.json` com PSR-4 (`App\\` → `app/`) e `app/Core/helpers.php` em `files`
+- [x] Versionar `composer.lock`
+- [x] `namespace` e `use` em `app/Core`, `app/Controllers` e `app/Models`
+- [x] Importar as classes nas 13 views que as usam
+- [x] Tratar classes globais (`DateTime`, `RuntimeException`, `Throwable`)
+- [x] Trocar os `require` manuais de `public/index.php` por `vendor/autoload.php`
 - Pronto quando: todas as telas abrem como antes, ainda com `mysqli` e `?page=`.
 
 ### Passo 2 - PDO

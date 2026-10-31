@@ -1,4 +1,9 @@
 <?php
+namespace App\Core;
+
+use mysqli;
+use mysqli_stmt;
+
 /**
  * Classe base de todos os Models.
  *

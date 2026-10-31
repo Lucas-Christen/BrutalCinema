@@ -1,4 +1,13 @@
 <?php
+namespace App\Controllers;
+
+use App\Core\Auth;
+use App\Core\Controller;
+use App\Models\Filme;
+use App\Models\Ingresso;
+use App\Models\Sala;
+use App\Models\Sessao;
+
 /**
  * Página inicial (painel). Conteúdo varia conforme o perfil:
  * - admin e funcionário: indicadores, próximas sessões com ocupação e atalhos;

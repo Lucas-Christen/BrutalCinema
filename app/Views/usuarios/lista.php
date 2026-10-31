@@ -1,4 +1,6 @@
 <?php
+use App\Core\Auth;
+
 /**
  * Listagem de usuários (admin).
  * Variáveis: $usuarios

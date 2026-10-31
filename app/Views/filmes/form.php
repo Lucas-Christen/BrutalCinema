@@ -1,4 +1,6 @@
 <?php
+use App\Models\Filme;
+
 /**
  * Formulário de filme, usado tanto para criar quanto para editar.
  * Variáveis: $titulo, $filme (valores atuais ou digitados), $erros (campo => mensagem)

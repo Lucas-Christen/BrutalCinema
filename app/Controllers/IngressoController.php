@@ -1,4 +1,14 @@
 <?php
+namespace App\Controllers;
+
+use App\Core\Auth;
+use App\Core\Controller;
+use App\Core\Session;
+use App\Core\Validator;
+use App\Models\Ingresso;
+use App\Models\Sessao;
+use mysqli_sql_exception;
+
 /**
  * Venda (balcão) e compra (cliente) de ingressos, com mapa de assentos.
  */

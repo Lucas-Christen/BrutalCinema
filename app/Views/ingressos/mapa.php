@@ -1,4 +1,6 @@
 <?php
+use App\Core\Auth;
+
 /**
  * Mapa de assentos + formulário de venda/compra.
  * Variáveis: $sessao (com filme e sala), $ocupados (["A-1", ...]),

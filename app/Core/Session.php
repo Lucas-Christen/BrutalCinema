@@ -1,4 +1,6 @@
 <?php
+namespace App\Core;
+
 /**
  * Encapsula o uso de $_SESSION.
  *

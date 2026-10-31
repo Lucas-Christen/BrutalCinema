@@ -1,4 +1,6 @@
 <?php
+use App\Core\Auth;
+
 /**
  * Menu superior. Itens variam conforme o perfil do usuário logado.
  */

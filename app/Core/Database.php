@@ -1,4 +1,8 @@
 <?php
+namespace App\Core;
+
+use mysqli;
+
 /**
  * Gerencia a conexão com o banco de dados via mysqli.
  *
