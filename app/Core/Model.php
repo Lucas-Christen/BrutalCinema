@@ -1,13 +1,13 @@
 <?php
 namespace App\Core;
 
-use mysqli;
-use mysqli_stmt;
+use PDO;
+use PDOStatement;
 
 /**
  * Classe base de todos os Models.
  *
- * Concentra o acesso ao banco via mysqli com prepared statements.
+ * Concentra o acesso ao banco via PDO com prepared statements.
  * Cada Model concreto define a tabela e adiciona consultas específicas.
  */
 abstract class Model
@@ -15,7 +15,7 @@ abstract class Model
     /** Nome da tabela no banco. Definido em cada Model concreto. */
     protected string $tabela;
 
-    protected mysqli $db;
+    protected PDO $db;
 
     public function __construct()
     {
@@ -52,7 +52,7 @@ abstract class Model
         $sql = "INSERT INTO {$this->tabela} ({$colunas}) VALUES ({$marcadores})";
         $this->executar($sql, array_values($dados));
 
-        return (int) $this->db->insert_id;
+        return (int) $this->db->lastInsertId();
     }
 
     /**
@@ -66,7 +66,7 @@ abstract class Model
         $sql = "UPDATE {$this->tabela} SET {$atribuicoes} WHERE id = ?";
         $stmt = $this->executar($sql, [...array_values($dados), $id]);
 
-        return $stmt->affected_rows >= 0;
+        return $stmt->rowCount() >= 0;
     }
 
     /**
@@ -75,7 +75,7 @@ abstract class Model
     public function excluir(int $id): bool
     {
         $stmt = $this->executar("DELETE FROM {$this->tabela} WHERE id = ?", [$id]);
-        return $stmt->affected_rows > 0;
+        return $stmt->rowCount() > 0;
     }
 
     /**
@@ -84,8 +84,7 @@ abstract class Model
      */
     protected function consultar(string $sql, array $params = []): array
     {
-        $stmt = $this->executar($sql, $params);
-        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $this->executar($sql, $params)->fetchAll();
     }
 
     /**
@@ -100,25 +99,11 @@ abstract class Model
 
     /**
      * Prepara e executa uma query com os parâmetros informados.
-     * Os tipos dos parâmetros (i, d, s) são deduzidos automaticamente.
      */
-    protected function executar(string $sql, array $params = []): mysqli_stmt
+    protected function executar(string $sql, array $params = []): PDOStatement
     {
         $stmt = $this->db->prepare($sql);
-
-        if ($params !== []) {
-            $tipos = '';
-            foreach ($params as $valor) {
-                $tipos .= match (true) {
-                    is_int($valor)   => 'i',
-                    is_float($valor) => 'd',
-                    default          => 's',
-                };
-            }
-            $stmt->bind_param($tipos, ...$params);
-        }
-
-        $stmt->execute();
+        $stmt->execute($params);
         return $stmt;
     }
 }

@@ -9,7 +9,7 @@ Entrega: **03/11/2026**. Este arquivo acompanha o andamento do Trabalho 2.
 - Nada é adicionado sem estar previsto aqui. Se o plano mudar, atualizar este arquivo primeiro.
 - Sem Laravel ou outro framework PHP. Bibliotecas pontuais via Composer são permitidas.
 - `schema.sql` e `seed.sql` não mudam, e os dados atuais são preservados.
-- Desenvolvimento na branch `feat/trabalho-2`. Nada de push ou PR sem aval.
+- Desenvolvimento em branches `feat/...` a partir de `main`. Nada de push ou PR sem aval.
 
 ## Requisitos do enunciado
 
@@ -67,12 +67,12 @@ URL inexistente, ou método HTTP não permitido, mostra a página 404.
 - Pronto quando: todas as telas abrem como antes, ainda com `mysqli` e `?page=`.
 
 ### Passo 2 - PDO
-- [ ] `app/Core/Database.php` com `ERRMODE_EXCEPTION`, `FETCH_ASSOC` e `EMULATE_PREPARES=false`
-- [ ] Manter o `SET time_zone` na conexão
-- [ ] `app/Core/Model.php`: `PDOStatement`, `rowCount()` e `lastInsertId()`
-- [ ] `app/Models/Ingresso.php`: `beginTransaction`, `rollBack` e `PDOException`
-- [ ] `IngressoController`: duplicidade por `$e->errorInfo[1] === 1062`
-- [ ] Remover todo uso de `mysqli`
+- [x] `app/Core/Database.php` com `ERRMODE_EXCEPTION`, `FETCH_ASSOC` e `EMULATE_PREPARES=false`
+- [x] Manter o `SET time_zone` na conexão
+- [x] `app/Core/Model.php`: `PDOStatement`, `rowCount()` e `lastInsertId()`
+- [x] `app/Models/Ingresso.php`: `beginTransaction`, `rollBack` e `PDOException`
+- [x] `IngressoController`: duplicidade por `$e->errorInfo[1] === 1062`
+- [x] Remover todo uso de `mysqli`
 - Pronto quando: CRUDs e venda funcionam, e assento duplicado mostra a mensagem amigável.
 
 ### Passo 3 - `.env`

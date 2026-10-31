@@ -2,7 +2,7 @@
 namespace App\Models;
 
 use App\Core\Model;
-use mysqli_sql_exception;
+use PDOException;
 
 /**
  * Acesso à tabela ingressos.
@@ -37,14 +37,14 @@ class Ingresso extends Model
      */
     public function venderVarios(array $registros): void
     {
-        $this->db->begin_transaction();
+        $this->db->beginTransaction();
         try {
             foreach ($registros as $registro) {
                 $this->inserir($registro);
             }
             $this->db->commit();
-        } catch (mysqli_sql_exception $e) {
-            $this->db->rollback();
+        } catch (PDOException $e) {
+            $this->db->rollBack();
             throw $e;
         }
     }

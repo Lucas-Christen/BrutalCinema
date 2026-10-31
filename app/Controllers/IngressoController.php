@@ -7,7 +7,7 @@ use App\Core\Session;
 use App\Core\Validator;
 use App\Models\Ingresso;
 use App\Models\Sessao;
-use mysqli_sql_exception;
+use PDOException;
 
 /**
  * Venda (balcão) e compra (cliente) de ingressos, com mapa de assentos.
@@ -148,9 +148,10 @@ class IngressoController extends Controller
                 try {
                     // Tudo ou nada: se um assento falhar, nenhum é gravado
                     $this->ingressos->venderVarios($registros);
-                } catch (mysqli_sql_exception $e) {
-                    // 1062 = violação de UNIQUE: outro usuário comprou um dos assentos neste instante
-                    if ($e->getCode() === 1062) {
+                } catch (PDOException $e) {
+                    // 1062 = violação de UNIQUE: outro usuário comprou um dos assentos neste instante.
+                    // No PDO, getCode() traz o SQLSTATE; o código do MariaDB fica em errorInfo[1].
+                    if (($e->errorInfo[1] ?? null) === 1062) {
                         $erros['assentos'] = 'Um dos assentos acabou de ser vendido. Escolha novamente.';
                     } else {
                         throw $e;
