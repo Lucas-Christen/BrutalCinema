@@ -17,8 +17,22 @@ use App\Controllers\SessaoController;
 use App\Controllers\UsuarioController;
 use App\Core\Auth;
 use App\Core\Session;
+use Dotenv\Dotenv;
+use Dotenv\Exception\ExceptionInterface as DotenvException;
 
 require __DIR__ . '/../vendor/autoload.php';
+
+// Sem configuração válida não há banco nem página de erro: avisa e encerra
+try {
+    $dotenv = Dotenv::createImmutable(dirname(__DIR__));
+    $dotenv->load();
+    $dotenv->required(['DB_HOST', 'DB_PORT', 'DB_NAME', 'DB_USER', 'DB_PASS']);
+} catch (DotenvException $e) {
+    error_log((string) $e);
+    http_response_code(500);
+    header('Content-Type: text/plain; charset=UTF-8');
+    exit('Configuração inválida: copie .env.example para .env e preencha todas as variáveis.');
+}
 
 $app = require __DIR__ . '/../config/app.php';
 date_default_timezone_set($app['timezone']);

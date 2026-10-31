@@ -76,9 +76,9 @@ URL inexistente, ou método HTTP não permitido, mostra a página 404.
 - Pronto quando: CRUDs e venda funcionam, e assento duplicado mostra a mensagem amigável.
 
 ### Passo 3 - `.env`
-- [ ] Criar `.env.example` e adicionar `.env` ao `.gitignore`
-- [ ] Carregar o phpdotenv em `public/index.php`
-- [ ] `config/database.php` e `config/app.php` lendo `$_ENV`, incluindo `APP_DEBUG`
+- [x] Criar `.env.example` e adicionar `.env` ao `.gitignore`
+- [x] Carregar o phpdotenv em `public/index.php`
+- [x] `config/database.php` e `config/app.php` lendo `$_ENV`, incluindo `APP_DEBUG`
 - Pronto quando: sem `.env`, a aplicação mostra um erro claro; com ele, funciona normalmente.
 
 ### Passo 4 - Rotas com URL transparente

@@ -2,14 +2,13 @@
 /**
  * Configuração de conexão com o banco de dados.
  *
- * Único arquivo que precisa ser ajustado na instalação.
- * Altere os valores conforme o seu servidor MariaDB/MySQL.
+ * Os valores vêm do arquivo .env (modelo em .env.example).
  */
 return [
-    'host'    => 'localhost',
-    'port'    => 3306,
-    'dbname'  => 'brutalcinema',
-    'user'    => 'brutal',
-    'pass'    => 'brutal123',
+    'host'    => $_ENV['DB_HOST'],
+    'port'    => (int) $_ENV['DB_PORT'],
+    'dbname'  => $_ENV['DB_NAME'],
+    'user'    => $_ENV['DB_USER'],
+    'pass'    => $_ENV['DB_PASS'],
     'charset' => 'utf8mb4',
 ];
