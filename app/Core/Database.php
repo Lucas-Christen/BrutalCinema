@@ -1,40 +1,38 @@
 <?php
 namespace App\Core;
 
-use mysqli;
+use PDO;
 
 /**
- * Gerencia a conexão com o banco de dados via mysqli.
+ * Gerencia a conexão com o banco de dados via PDO.
  *
  * A conexão é aberta uma única vez por requisição e reaproveitada
  * por todos os Models (padrão Singleton).
  */
 class Database
 {
-    private static ?mysqli $conexao = null;
+    private static ?PDO $conexao = null;
 
     /**
      * Retorna a conexão ativa, criando-a na primeira chamada.
      */
-    public static function conectar(): mysqli
+    public static function conectar(): PDO
     {
         if (self::$conexao === null) {
             $config = require __DIR__ . '/../../config/database.php';
 
-            // Faz o mysqli lançar exceções em vez de retornar false silenciosamente
-            mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+            $dsn = "mysql:host={$config['host']};port={$config['port']};"
+                 . "dbname={$config['dbname']};charset={$config['charset']}";
 
-            self::$conexao = new mysqli(
-                $config['host'],
-                $config['user'],
-                $config['pass'],
-                $config['dbname'],
-                $config['port']
-            );
-            self::$conexao->set_charset($config['charset']);
+            self::$conexao = new PDO($dsn, $config['user'], $config['pass'], [
+                PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                // Prepared statements reais, executados pelo próprio banco
+                PDO::ATTR_EMULATE_PREPARES   => false,
+            ]);
 
             // NOW() e CURDATE() seguem o mesmo fuso configurado no PHP
-            self::$conexao->query("SET time_zone = '" . date('P') . "'");
+            self::$conexao->exec("SET time_zone = '" . date('P') . "'");
         }
 
         return self::$conexao;
