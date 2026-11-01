@@ -11,7 +11,7 @@ $indicadores = [
     ['Filmes ativos',   $filmesAtivos,               'bi-film',              url('filmes')],
     ['Salas ativas',    $salasAtivas,                'bi-door-open',         url('salas')],
     ['Sessões hoje',    $sessoesHoje,                'bi-calendar3',         url('sessoes')],
-    ['Ingressos hoje',  $vendasHoje['quantidade'],   'bi-ticket-perforated', url('ingressos'), moeda($vendasHoje['receita'])],
+    ['Ingressos hoje',  $vendasHoje['quantidade'],   'bi-ticket-perforated', url('ingressos')],
 ];
 
 // [rótulo, ícone, url, só admin?]
@@ -78,7 +78,7 @@ $atalhos = [
                     <tbody>
                     <?php foreach ($proximas as $s): ?>
                         <?php
-                        $pct  = $s['capacidade'] > 0 ? (int) round($s['vendidos'] / $s['capacidade'] * 100) : 0;
+                        $pct  = $s['ocupacao'];
                         $cor  = $pct >= 90 ? 'bg-danger' : ($pct >= 50 ? 'bg-warning' : 'bg-success');
                         $hoje = date('Y-m-d', strtotime($s['inicio'])) === date('Y-m-d');
                         ?>

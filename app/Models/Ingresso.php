@@ -16,6 +16,19 @@ class Ingresso extends Model
     public const TIPOS = ['inteira', 'meia'];
 
     /**
+     * Situação de um ingresso de doUsuario(): 'cancelada', 'encerrada' ou 'valido'.
+     * @param array<string, mixed> $ingresso
+     */
+    public static function situacao(array $ingresso): string
+    {
+        return match (true) {
+            $ingresso['sessao_status'] === 'cancelada' => 'cancelada',
+            Sessao::iniciada($ingresso)                => 'encerrada',
+            default                                    => 'valido',
+        };
+    }
+
+    /**
      * Assentos já vendidos de uma sessão, no formato "A-5".
      * @return array<int, string>
      */

@@ -93,8 +93,8 @@ URL inexistente, ou método HTTP não permitido, mostra a página 404.
   `index.php?page=`.
 
 ### Passo 5 - Revisão de MVC e OO
-- [ ] Tirar das views a lógica de regra, como o cálculo de sessão encerrada em `sessoes/lista.php`
-- [ ] Remover código sem uso, como `Sessao::STATUS`, se continuar sem uso
+- [x] Tirar das views a lógica de regra, como o cálculo de sessão encerrada em `sessoes/lista.php`
+- [x] Remover código sem uso, como `Sessao::STATUS`, se continuar sem uso
 
 ### Passo 6 - Documentação
 - [ ] `README.md`: requisitos, `composer install`, `.env`, criação do banco, `php -S`,

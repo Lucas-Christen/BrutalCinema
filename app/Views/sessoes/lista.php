@@ -1,5 +1,6 @@
 <?php
 use App\Core\Auth;
+use App\Models\Sessao;
 
 /**
  * Listagem de sessões.
@@ -7,7 +8,6 @@ use App\Core\Auth;
  */
 $ehAdmin   = Auth::temPerfil('admin');
 $ehCliente = Auth::temPerfil('cliente');
-$agora     = date('Y-m-d H:i:s');
 ?>
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="h3 mb-0"><i class="bi bi-calendar3 text-brutal"></i> Sessões</h1>
@@ -37,11 +37,7 @@ $agora     = date('Y-m-d H:i:s');
         </thead>
         <tbody>
         <?php foreach ($sessoes as $s): ?>
-            <?php
-            // Sessão agendada cujo horário já passou é exibida como encerrada
-            $encerrada = $s['status'] === 'agendada' && $s['fim'] < $agora;
-            $editavel  = $s['status'] === 'agendada' && !$encerrada;
-            ?>
+            <?php $editavel = Sessao::editavel($s); ?>
             <tr class="<?= $editavel ? '' : 'text-secondary' ?>">
                 <td>
                     <?= e($s['filme_titulo']) ?>
@@ -55,14 +51,14 @@ $agora     = date('Y-m-d H:i:s');
                 <td>
                     <?php if ($s['status'] === 'cancelada'): ?>
                         <span class="badge text-bg-danger">Cancelada</span>
-                    <?php elseif ($encerrada || $s['status'] === 'encerrada'): ?>
+                    <?php elseif (Sessao::encerrada($s)): ?>
                         <span class="badge text-bg-secondary">Encerrada</span>
                     <?php else: ?>
                         <span class="badge text-bg-success">Agendada</span>
                     <?php endif; ?>
                 </td>
                 <td class="text-end text-nowrap">
-                    <?php if ($editavel): ?>
+                    <?php if (Sessao::vendaAberta($s)): ?>
                         <a href="<?= url('ingressos', $ehCliente ? 'comprar' : 'vender', ['sessao_id' => $s['id']]) ?>"
                            class="btn btn-sm btn-primary">
                             <i class="bi bi-ticket-perforated"></i> <?= $ehCliente ? 'Comprar' : 'Vender' ?>
