@@ -47,7 +47,7 @@ class SessaoController extends Controller
     {
         Auth::exigirPerfil('admin');
 
-        $sessao = $this->buscarOuRedirecionar();
+        $sessao = $this->exigirEditavel($this->buscarOuRedirecionar());
 
         // Converte para os formatos usados no formulário (datetime-local e vírgula decimal)
         $sessao['inicio'] = date(self::FORMATO_INPUT, strtotime($sessao['inicio']));
@@ -66,6 +66,10 @@ class SessaoController extends Controller
 
         $dados = $this->dadosPost();
         $id    = (int) ($dados['id'] ?? 0);
+
+        if ($id > 0) {
+            $this->exigirEditavel($this->sessoes->buscar($id));
+        }
 
         [$erros, $registro] = $this->validar($dados, $id);
 
@@ -86,14 +90,14 @@ class SessaoController extends Controller
     }
 
     /**
-     * Cancela a sessão. Bloqueado se já houver ingressos vendidos.
+     * Cancela a sessão. Bloqueado se já houver ingressos vendidos ou se ela não for mais editável.
      */
     public function cancelar(): void
     {
         Auth::exigirPerfil('admin');
 
         if ($this->ehPost()) {
-            $sessao = $this->buscarOuRedirecionar();
+            $sessao = $this->exigirEditavel($this->buscarOuRedirecionar());
 
             if ($this->sessoes->temIngressoVendido((int) $sessao['id'])) {
                 Session::flash('erro', 'Não é possível cancelar: a sessão possui ingressos vendidos.');
@@ -203,6 +207,24 @@ class SessaoController extends Controller
 
         if ($sessao === null) {
             Session::flash('erro', 'Sessão não encontrada.');
+            $this->redirecionar('sessoes');
+        }
+        return $sessao;
+    }
+
+    /**
+     * Sessão encerrada, cancelada ou inexistente não pode ser alterada.
+     * @param array<string, mixed>|null $sessao
+     * @return array<string, mixed>
+     */
+    private function exigirEditavel(?array $sessao): array
+    {
+        if ($sessao === null) {
+            Session::flash('erro', 'Sessão não encontrada.');
+            $this->redirecionar('sessoes');
+        }
+        if (!Sessao::editavel($sessao)) {
+            Session::flash('erro', 'Sessão encerrada ou cancelada não pode ser alterada.');
             $this->redirecionar('sessoes');
         }
         return $sessao;
