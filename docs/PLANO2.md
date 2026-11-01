@@ -102,11 +102,11 @@ URL inexistente, ou método HTTP não permitido, mostra a página 404.
 - [x] Cofre: Roadmap, Rotas, Arquitetura, Core, Roteiro de Testes e Defesa
 
 ### Passo 7 - Teste final e entrega
-- [ ] Executar todo o roteiro no navegador, com admin, funcionário e cliente
-- [ ] Repetir os cenários do commit `ace2bea`
-- [ ] Testar instalação limpa seguindo apenas o README
+- [x] Executar todo o roteiro no servidor real e no navegador, com admin, funcionário e cliente
+- [x] Repetir os cenários do commit `ace2bea`
+- [ ] Testar instalação limpa seguindo apenas o README (feita em pasta nova, sem recriar o banco; falta outra máquina)
 - [ ] Testar `.htaccess` no Apache, se o `mod_rewrite` estiver ativo
-- [ ] Abrir PR para `main`, com aval do Lucas
+- [x] Abrir PR para `main`, com aval do Lucas (PRs #14 a #19 mesclados pelo Lucas)
 - [ ] Enviar no Moodle
 
 ---
