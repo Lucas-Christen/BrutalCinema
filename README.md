@@ -259,7 +259,7 @@ Todas verificadas em PHP, no servidor. A validação HTML5 está desativada nos 
 
 **Salas**: nome único; 1–26 fileiras (letras A–Z); 1–50 assentos por fileira; tipo 2D/3D/IMAX. Capacidade é calculada, não armazenada. Não pode ser desativada com sessão futura, nem reduzida abaixo de um assento já vendido em sessão futura.
 
-**Sessões**: filme e sala devem existir e estar ativos; início no futuro; preço de R$ 0,01 a R$ 999.999,99; idioma dublado/legendado. O término é calculado no servidor: início + duração do filme + intervalo de limpeza. **Não pode haver sobreposição de horário na mesma sala** (a mensagem informa qual sessão conflita). Sessão com ingressos vendidos não pode trocar de sala nem ser cancelada.
+**Sessões**: filme e sala devem existir e estar ativos; início no futuro; preço de R$ 0,01 a R$ 999.999,99; idioma dublado/legendado. O término é calculado no servidor: início + duração do filme + intervalo de limpeza. **Não pode haver sobreposição de horário na mesma sala** (a mensagem informa qual sessão conflita). Sessão com ingressos vendidos não pode trocar de sala nem ser cancelada. Sessão encerrada ou cancelada não pode ser editada nem cancelada.
 
 **Ingressos**: sessão deve estar agendada e no futuro; de 1 a 10 assentos por operação, cada um no formato `A-5`, dentro dos limites da sala e livre; CPF com 11 dígitos; tipo inteira/meia. O valor pago é calculado no servidor (meia = 50%). Os ingressos de uma operação são gravados em **transação**: se um falhar, nenhum é salvo. A tabela tem `UNIQUE (sessao_id, fileira, numero)`, então o banco impede venda dupla mesmo em acesso simultâneo; nesse caso o usuário recebe uma mensagem amigável.
 
@@ -272,7 +272,6 @@ Todas verificadas em PHP, no servidor. A validação HTML5 está desativada nos 
 - O status "encerrada" de uma sessão é apenas visual (calculado pela data), não é gravado no banco.
 - A máscara de CPF (`js/app.js`) é conveniência de interface; a verificação real (11 dígitos) é feita em PHP. Não há validação de dígito verificador do CPF.
 - Não há CSRF token nos formulários.
-- As regras de sessão editável valem na interface; `SessaoController` ainda não bloqueia POST manual de um admin em sessão encerrada ou cancelada.
 - Não há paginação nas listagens.
 - Não há recuperação de senha.
 - Bootstrap e ícones vêm de CDN; sem internet a aplicação funciona, mas sem estilos.
