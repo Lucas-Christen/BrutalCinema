@@ -13,13 +13,13 @@ Entrega: **03/11/2026**. Este arquivo acompanha o andamento do Trabalho 2.
 
 ## Requisitos do enunciado
 
-| Requisito obrigatório                        | Situação em 30/10 | Passos  |
+| Requisito obrigatório                        | Situação em 01/11 | Passos  |
 |----------------------------------------------|-------------------|---------|
-| PHP 8+ e Orientação a Objetos                | Parcial           | 1, 5    |
-| Composer com autoload e packages             | Não iniciado      | 1, 3, 4 |
-| Banco via PDO                                | Não iniciado      | 2       |
-| Rotas com URL transparente e MVC             | Não iniciado      | 4, 5    |
-| Documentação de configuração e instalação    | Desatualizada     | 6       |
+| PHP 8+ e Orientação a Objetos                | Atendido          | 1, 5    |
+| Composer com autoload e packages             | Atendido          | 1, 3, 4 |
+| Banco via PDO                                | Atendido          | 2       |
+| Rotas com URL transparente e MVC             | Atendido          | 4, 5    |
+| Documentação de configuração e instalação    | Atendido          | 6       |
 | Interface com feedback e erros               | Atendido          | 7       |
 
 Opcionais: framework de interface (Bootstrap, já atendido) e API de terceiro.
@@ -97,9 +97,9 @@ URL inexistente, ou método HTTP não permitido, mostra a página 404.
 - [x] Remover código sem uso, como `Sessao::STATUS`, se continuar sem uso
 
 ### Passo 6 - Documentação
-- [ ] `README.md`: requisitos, `composer install`, `.env`, criação do banco, `php -S`,
+- [x] `README.md`: requisitos, `composer install`, `.env`, criação do banco, `php -S`,
       Apache/XAMPP com `mod_rewrite`, packages, nova estrutura e rotas
-- [ ] Cofre: Roadmap, Rotas, Arquitetura, Core, Roteiro de Testes e Defesa
+- [x] Cofre: Roadmap, Rotas, Arquitetura, Core, Roteiro de Testes e Defesa
 
 ### Passo 7 - Teste final e entrega
 - [ ] Executar todo o roteiro no navegador, com admin, funcionário e cliente
