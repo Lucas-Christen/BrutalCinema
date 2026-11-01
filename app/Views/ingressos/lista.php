@@ -1,4 +1,6 @@
 <?php
+use App\Models\Sessao;
+
 /**
  * Ingressos vendidos (admin e funcionário).
  * Variáveis: $ingressos
@@ -47,7 +49,7 @@
                     <small class="text-secondary d-block"><?= dataHoraBr($i['vendido_em']) ?></small>
                 </td>
                 <td class="text-end">
-                    <?php if ($i['inicio'] > date('Y-m-d H:i:s')): ?>
+                    <?php if (!Sessao::iniciada($i)): ?>
                         <form method="post" action="<?= url('ingressos', 'cancelar') ?>" class="d-inline"
                               onsubmit="return confirm('Cancelar este ingresso e liberar o assento?');">
                             <input type="hidden" name="id" value="<?= (int) $i['id'] ?>">

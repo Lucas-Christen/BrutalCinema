@@ -12,7 +12,41 @@ class Sessao extends Model
     protected string $tabela = 'sessoes';
 
     public const IDIOMAS = ['dublado', 'legendado'];
-    public const STATUS  = ['agendada', 'cancelada', 'encerrada'];
+
+    /**
+     * A sessão já começou? Aceita qualquer linha que tenha a coluna inicio.
+     * @param array<string, mixed> $sessao
+     */
+    public static function iniciada(array $sessao): bool
+    {
+        return $sessao['inicio'] <= date('Y-m-d H:i:s');
+    }
+
+    /**
+     * Sessão agendada cujo horário já passou é tratada como encerrada,
+     * sem depender de gravar esse status no banco.
+     * @param array<string, mixed> $sessao
+     */
+    public static function encerrada(array $sessao): bool
+    {
+        return $sessao['status'] === 'encerrada'
+            || ($sessao['status'] === 'agendada' && $sessao['fim'] < date('Y-m-d H:i:s'));
+    }
+
+    /** @param array<string, mixed> $sessao */
+    public static function editavel(array $sessao): bool
+    {
+        return $sessao['status'] === 'agendada' && !self::encerrada($sessao);
+    }
+
+    /**
+     * Só é possível vender para sessão agendada e ainda não iniciada.
+     * @param array<string, mixed> $sessao
+     */
+    public static function vendaAberta(array $sessao): bool
+    {
+        return $sessao['status'] === 'agendada' && !self::iniciada($sessao);
+    }
 
     /**
      * Todas as sessões com título do filme e nome da sala, mais recentes primeiro.
@@ -56,13 +90,13 @@ class Sessao extends Model
     }
 
     /**
-     * Próximas sessões agendadas, com ocupação (ingressos vendidos x capacidade).
+     * Próximas sessões agendadas, com lugares livres e ocupação em %.
      * Usada no painel inicial.
      * @return array<int, array<string, mixed>>
      */
     public function proximas(int $limite = 8): array
     {
-        return $this->consultar(
+        $sessoes = $this->consultar(
             "SELECT s.id, s.inicio, s.fim, s.preco, s.idioma,
                     f.titulo AS filme_titulo, f.classificacao,
                     sa.nome AS sala_nome, sa.tipo AS sala_tipo,
@@ -75,6 +109,15 @@ class Sessao extends Model
              ORDER BY s.inicio
              LIMIT {$limite}"
         );
+
+        return array_map(function (array $s): array {
+            $capacidade = (int) $s['capacidade'];
+            $vendidos   = (int) $s['vendidos'];
+
+            $s['livres']   = $capacidade - $vendidos;
+            $s['ocupacao'] = $capacidade > 0 ? (int) round($vendidos / $capacidade * 100) : 0;
+            return $s;
+        }, $sessoes);
     }
 
     /**

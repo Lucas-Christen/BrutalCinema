@@ -38,7 +38,6 @@ use App\Core\Auth;
 <?php else: ?>
 <div class="row g-3">
     <?php foreach ($sessoes as $s): ?>
-        <?php $livres = (int) $s['capacidade'] - (int) $s['vendidos']; ?>
         <div class="col-md-6 col-lg-4">
             <div class="card h-100">
                 <div class="card-body d-flex flex-column">
@@ -49,11 +48,11 @@ use App\Core\Auth;
                     <ul class="list-unstyled small text-secondary mb-3">
                         <li><i class="bi bi-calendar3"></i> <?= dataHoraBr($s['inicio']) ?></li>
                         <li><i class="bi bi-door-open"></i> <?= e($s['sala_nome']) ?> (<?= e($s['sala_tipo']) ?>) &middot; <?= e(ucfirst($s['idioma'])) ?></li>
-                        <li><i class="bi bi-people"></i> <?= $livres ?> lugares livres</li>
+                        <li><i class="bi bi-people"></i> <?= $s['livres'] ?> lugares livres</li>
                     </ul>
                     <div class="d-flex justify-content-between align-items-center mt-auto">
                         <span class="fw-bold"><?= moeda($s['preco']) ?></span>
-                        <?php if ($livres > 0): ?>
+                        <?php if ($s['livres'] > 0): ?>
                             <a href="<?= url('ingressos', 'comprar', ['sessao_id' => $s['id']]) ?>" class="btn btn-sm btn-primary">
                                 <i class="bi bi-ticket-perforated"></i> Comprar
                             </a>

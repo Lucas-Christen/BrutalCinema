@@ -86,7 +86,7 @@ class IngressoController extends Controller
 
             if ($ingresso === null) {
                 Session::flash('erro', 'Ingresso não encontrado ou já cancelado.');
-            } elseif ($this->sessoes->buscar((int) $ingresso['sessao_id'])['inicio'] <= date('Y-m-d H:i:s')) {
+            } elseif (Sessao::iniciada($this->sessoes->buscar((int) $ingresso['sessao_id']))) {
                 Session::flash('erro', 'Não é possível cancelar: a sessão já começou.');
             } else {
                 $this->ingressos->excluir($id);
@@ -112,8 +112,7 @@ class IngressoController extends Controller
         $sessaoId = (int) ($_GET['sessao_id'] ?? $_POST['sessao_id'] ?? 0);
         $sessao   = $sessaoId > 0 ? $this->sessoes->buscarComDetalhes($sessaoId) : null;
 
-        // Só é possível vender para sessão agendada e ainda não iniciada
-        if ($sessao === null || $sessao['status'] !== 'agendada' || $sessao['inicio'] <= date('Y-m-d H:i:s')) {
+        if ($sessao === null || !Sessao::vendaAberta($sessao)) {
             Session::flash('erro', 'Sessão indisponível para venda de ingressos.');
             $this->redirecionar('sessoes');
         }
@@ -172,10 +171,14 @@ class IngressoController extends Controller
             }
         }
 
+        $ocupados   = $this->ingressos->assentosOcupados($sessaoId);
+        $capacidade = (int) $sessao['fileiras'] * (int) $sessao['assentos_por_fileira'];
+
         $this->renderizar('ingressos/mapa', [
             'titulo'      => $balcao ? 'Vender ingressos' : 'Comprar ingressos',
             'sessao'      => $sessao,
-            'ocupados'    => $this->ingressos->assentosOcupados($sessaoId),
+            'ocupados'    => $ocupados,
+            'livres'      => $capacidade - count($ocupados),
             'dados'       => $dados,
             'erros'       => $erros,
             'balcao'      => $balcao,

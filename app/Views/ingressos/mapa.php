@@ -3,14 +3,13 @@ use App\Core\Auth;
 
 /**
  * Mapa de assentos + formulário de venda/compra.
- * Variáveis: $sessao (com filme e sala), $ocupados (["A-1", ...]),
+ * Variáveis: $sessao (com filme e sala), $ocupados (["A-1", ...]), $livres,
  *            $dados, $erros, $balcao (true = venda no balcão)
  */
 $acao     = $balcao ? 'vender' : 'comprar';
 $selecao  = $dados['assentos'] ?? [];
 $fileiras = (int) $sessao['fileiras'];
 $porFila  = (int) $sessao['assentos_por_fileira'];
-$livres   = $fileiras * $porFila - count($ocupados);
 ?>
 <h1 class="h3 mb-3"><i class="bi bi-ticket-perforated text-brutal"></i> <?= e($titulo) ?></h1>
 <div id="dados-sessao" data-preco="<?= (float) $sessao['preco'] ?>" hidden></div>

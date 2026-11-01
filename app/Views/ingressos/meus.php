@@ -1,9 +1,10 @@
 <?php
+use App\Models\Ingresso;
+
 /**
  * Ingressos do cliente logado, em cards.
  * Variáveis: $ingressos
  */
-$agora = date('Y-m-d H:i:s');
 ?>
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="h3 mb-0"><i class="bi bi-ticket-perforated text-brutal"></i> Meus ingressos</h1>
@@ -17,9 +18,9 @@ $agora = date('Y-m-d H:i:s');
 <?php else: ?>
 <div class="row g-3">
     <?php foreach ($ingressos as $i): ?>
-        <?php $passado = $i['inicio'] < $agora || $i['sessao_status'] !== 'agendada'; ?>
+        <?php $situacao = Ingresso::situacao($i); ?>
         <div class="col-md-6 col-lg-4">
-            <div class="card h-100 <?= $passado ? 'opacity-50' : '' ?>">
+            <div class="card h-100 <?= $situacao !== 'valido' ? 'opacity-50' : '' ?>">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <h2 class="h5 mb-0"><?= e($i['filme_titulo']) ?></h2>
@@ -31,9 +32,9 @@ $agora = date('Y-m-d H:i:s');
                         <li><i class="bi bi-person"></i> <?= e($i['nome_cliente']) ?> &middot; <?= cpfFormatado($i['cpf_cliente']) ?></li>
                         <li><i class="bi bi-cash"></i> <?= e(ucfirst($i['tipo'])) ?> &middot; <?= moeda($i['valor_pago']) ?></li>
                     </ul>
-                    <?php if ($i['sessao_status'] === 'cancelada'): ?>
+                    <?php if ($situacao === 'cancelada'): ?>
                         <span class="badge text-bg-danger">Sessão cancelada</span>
-                    <?php elseif ($i['inicio'] < $agora): ?>
+                    <?php elseif ($situacao === 'encerrada'): ?>
                         <span class="badge text-bg-secondary">Sessão encerrada</span>
                     <?php else: ?>
                         <span class="badge text-bg-success">Válido</span>
