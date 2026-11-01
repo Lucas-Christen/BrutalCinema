@@ -1,6 +1,6 @@
 # BrutalCinema
 
-Sistema web de gestão de cinema: cadastro de filmes, salas e sessões, venda de ingressos com mapa de assentos e área do cliente. Desenvolvido em PHP 8 puro (sem framework) com MariaDB, para a disciplina de Programação Web da UTFPR.
+Sistema web de gestão de cinema: cadastro de filmes, salas e sessões, venda de ingressos com mapa de assentos e área do cliente. Desenvolvido em PHP 8 com Orientação a Objetos, MVC próprio, Composer, PDO e URLs transparentes, sem framework PHP, para a disciplina de Programação Web da UTFPR.
 
 ## Integrante
 
@@ -17,10 +17,12 @@ Trabalho desenvolvido individualmente. Todas as atividades (modelagem do banco, 
 3. [Instalação](#instalação)
 4. [Configuração](#configuração)
 5. [Usuários de teste](#usuários-de-teste)
-6. [Arquitetura](#arquitetura)
-7. [Regras de negócio e validações](#regras-de-negócio-e-validações)
-8. [Particularidades e limitações](#particularidades-e-limitações)
-9. [Próximos trabalhos](#próximos-trabalhos)
+6. [Packages](#packages)
+7. [Rotas](#rotas)
+8. [Arquitetura](#arquitetura)
+9. [Regras de negócio e validações](#regras-de-negócio-e-validações)
+10. [Particularidades e limitações](#particularidades-e-limitações)
+11. [Próximos trabalhos](#próximos-trabalhos)
 
 ## Funcionalidades
 
@@ -46,20 +48,21 @@ Formulários de cadastro/edição: **Filmes**, **Salas**, **Sessões**, **Usuár
 
 ## Requisitos
 
-- PHP 8.1 ou superior, com as extensões `mysqli` e `mbstring`
+- PHP 8.1 ou superior, com as extensões `pdo_mysql` e `mbstring`
+- [Composer](https://getcomposer.org/) 2
 - MariaDB 10.4+ ou MySQL 8+
 - Navegador moderno (Bootstrap 5 e Bootstrap Icons são carregados via CDN, então é necessário acesso à internet para a interface carregar os estilos)
 
-Não há dependências via Composer nem etapa de build.
+As dependências PHP são instaladas pelo Composer. Não há etapa de build de front-end.
 
 ## Instalação
 
 ### Opção A: Linux (PHP nativo)
 
-1. Instale PHP e MariaDB:
+1. Instale PHP, MariaDB e Composer:
 
    ```bash
-   sudo apt update && sudo apt install -y php php-cli php-mysql php-mbstring mariadb-server
+   sudo apt update && sudo apt install -y php php-cli php-mysql php-mbstring mariadb-server composer unzip
    ```
 
 2. Clone o repositório:
@@ -69,7 +72,14 @@ Não há dependências via Composer nem etapa de build.
    cd BrutalCinema
    ```
 
-3. Crie o banco de dados e o usuário:
+3. Instale as dependências e crie o arquivo de configuração:
+
+   ```bash
+   composer install
+   cp .env.example .env
+   ```
+
+4. Crie o banco de dados e o usuário:
 
    ```bash
    sudo mariadb -e "CREATE DATABASE brutalcinema CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -78,32 +88,40 @@ Não há dependências via Composer nem etapa de build.
                     FLUSH PRIVILEGES;"
    ```
 
-4. Crie as tabelas e carregue os dados de exemplo:
+5. Crie as tabelas e carregue os dados de exemplo:
 
    ```bash
    mariadb -u brutal -pbrutal123 brutalcinema < database/schema.sql
    mariadb -u brutal -pbrutal123 brutalcinema < database/seed.sql
    ```
 
-5. Inicie o servidor embutido do PHP apontando para a pasta `public`:
+6. Inicie o servidor embutido do PHP apontando para a pasta `public`:
 
    ```bash
    php -S localhost:8000 -t public
    ```
 
-6. Acesse `http://localhost:8000` e entre com um dos [usuários de teste](#usuários-de-teste).
+7. Acesse `http://localhost:8000` e entre com um dos [usuários de teste](#usuários-de-teste).
 
 ### Opção B: Windows com XAMPP
 
-1. Instale o [XAMPP](https://www.apachefriends.org/) com PHP 8 e inicie **Apache** e **MySQL** no painel de controle.
-2. Clone ou extraia o projeto em `C:\xampp\htdocs\BrutalCinema`.
-3. Abra `http://localhost/phpmyadmin` e:
+1. Instale o [XAMPP](https://www.apachefriends.org/) com PHP 8 e o [Composer](https://getcomposer.org/download/).
+2. Em `C:\xampp\apache\conf\httpd.conf`, confirme que `mod_rewrite` está ativo e que a pasta `htdocs` tem `AllowOverride All`. As URLs dependem do arquivo `public/.htaccess`.
+3. Inicie **Apache** e **MySQL** no painel de controle.
+4. Clone ou extraia o projeto em `C:\xampp\htdocs\BrutalCinema` e, nessa pasta, execute:
+
+   ```bat
+   composer install
+   copy .env.example .env
+   ```
+
+5. Abra `http://localhost/phpmyadmin` e:
    - crie o banco `brutalcinema` com collation `utf8mb4_unicode_ci`;
    - na aba **Contas de usuário**, crie o usuário `brutal` com senha `brutal123` e conceda todos os privilégios no banco `brutalcinema`;
    - selecione o banco `brutalcinema`, aba **Importar**, e importe `database/schema.sql`; depois importe `database/seed.sql`.
-4. Acesse `http://localhost/BrutalCinema/public/`.
+6. Acesse `http://localhost/BrutalCinema/public/`.
 
-Alternativa ao passo 3 pelo terminal do XAMPP (`C:\xampp\mysql\bin`):
+Alternativa ao passo 5 pelo terminal do XAMPP (`C:\xampp\mysql\bin`):
 
 ```bat
 mysql -u root -e "CREATE DATABASE brutalcinema CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; CREATE USER 'brutal'@'localhost' IDENTIFIED BY 'brutal123'; GRANT ALL PRIVILEGES ON brutalcinema.* TO 'brutal'@'localhost'; FLUSH PRIVILEGES;"
@@ -111,26 +129,24 @@ mysql -u brutal -pbrutal123 brutalcinema < C:\xampp\htdocs\BrutalCinema\database
 mysql -u brutal -pbrutal123 brutalcinema < C:\xampp\htdocs\BrutalCinema\database\seed.sql
 ```
 
-> Se preferir usar o usuário `root` do XAMPP (sem senha), ajuste `config/database.php` conforme a seção seguinte.
+> Se preferir usar o usuário `root` do XAMPP (sem senha), ajuste o `.env` conforme a seção seguinte, mantendo `DB_PASS=` vazio.
 
 ## Configuração
 
-Existem apenas dois arquivos de configuração, ambos na pasta `config/`.
+A configuração local fica no arquivo `.env`, que não é versionado. Crie-o a partir de `.env.example`.
 
-### `config/database.php`
+### `.env`
 
-Dados de conexão com o banco. Se você seguiu a instalação acima, **não precisa alterar nada**. Caso use outro host, usuário, senha ou nome de banco, edite os valores:
+| Variável | Padrão | Descrição |
+|---|---|---|
+| `DB_HOST` | `localhost` | Servidor do banco |
+| `DB_PORT` | `3306` | Porta do banco |
+| `DB_NAME` | `brutalcinema` | Nome do banco |
+| `DB_USER` | `brutal` | Usuário do banco |
+| `DB_PASS` | `brutal123` | Senha do banco. Pode ficar vazia, mas a variável precisa existir |
+| `APP_DEBUG` | `true` | Exibe a mensagem do erro na página 500. **Coloque `false` em produção.** |
 
-```php
-return [
-    'host'    => 'localhost',
-    'port'    => 3306,
-    'dbname'  => 'brutalcinema',
-    'user'    => 'brutal',
-    'pass'    => 'brutal123',
-    'charset' => 'utf8mb4',
-];
-```
+Sem o `.env`, ou sem alguma variável do banco, a aplicação exibe um aviso de configuração inválida.
 
 ### `config/app.php`
 
@@ -140,7 +156,7 @@ Configurações gerais da aplicação:
 |---|---|---|
 | `nome` | `BrutalCinema` | Nome exibido no título e no menu |
 | `timezone` | `America/Sao_Paulo` | Fuso horário usado nas datas |
-| `debug` | `true` | Exibe a mensagem do erro na página 500. **Coloque `false` em produção.** |
+| `debug` | valor de `APP_DEBUG` | Definido pelo `.env` |
 | `intervalo_limpeza_min` | `15` | Minutos reservados entre o fim de um filme e a próxima sessão na mesma sala |
 
 ## Usuários de teste
@@ -157,40 +173,70 @@ O seed também cadastra 3 filmes e 3 salas. Sessões e ingressos não são criad
 
 Novos clientes podem se cadastrar pelo link "Criar conta" na tela de login. Funcionários e outros admins são criados pelo admin na tela **Usuários**.
 
+## Packages
+
+| Package | Uso |
+|---|---|
+| `vlucas/phpdotenv` | Carrega a configuração do arquivo `.env` |
+| `nikic/fast-route` | Faz o casamento das URLs transparentes em `app/Core/Router.php` |
+
+O autoload das classes usa PSR-4: o namespace `App\` corresponde à pasta `app/`.
+
+## Rotas
+
+A tabela completa está em `config/rotas.php`. As principais URLs são:
+
+| URL | Descrição |
+|---|---|
+| `/` | Painel ou página inicial do cliente |
+| `/login`, `/registro` | Autenticação e cadastro público |
+| `POST /sair` | Logout |
+| `/filmes`, `/salas`, `/sessoes`, `/usuarios` | Listagens |
+| `/filmes/novo`, `/filmes/3/editar` | Formulários; o mesmo padrão vale para salas, sessões e usuários |
+| `POST /filmes/salvar`, `/filmes/desativar`, `/filmes/ativar` | Ações do admin; salas e usuários seguem o mesmo padrão |
+| `/sessoes/5/vender`, `/sessoes/5/comprar` | Mapa de assentos |
+| `/ingressos`, `/ingressos/meus`, `POST /ingressos/cancelar` | Ingressos |
+
+URL inexistente ou método HTTP não permitido resulta em 404.
+
 ## Arquitetura
 
-O projeto segue o padrão **MVC** implementado manualmente, sem framework.
+O projeto segue o padrão **MVC** implementado manualmente, sem framework PHP.
 
 ```
 BrutalCinema/
 ├── public/                 raiz web (única pasta exposta pelo servidor)
 │   ├── index.php           front controller: recebe todas as requisições
+│   ├── .htaccess           reescrita de URL para Apache/XAMPP
 │   ├── css/estilo.css      ajustes visuais sobre o Bootstrap
 │   └── js/app.js           máscara de CPF e resumo do mapa de assentos
 ├── app/
-│   ├── Core/               infraestrutura compartilhada
-│   │   ├── Database.php    conexão mysqli única (singleton)
+│   ├── Core/               infraestrutura compartilhada (namespace App\Core)
+│   │   ├── Router.php      rotas com fast-route e geração de URLs
+│   │   ├── Database.php    conexão PDO única (singleton)
 │   │   ├── Model.php       classe base dos models: prepared statements, CRUD genérico
 │   │   ├── Controller.php  classe base dos controllers: renderizar(), redirecionar()
 │   │   ├── Validator.php   regras de validação encadeáveis, erros por campo
 │   │   ├── Session.php     sessão e mensagens flash
-│   │   ├── Auth.php        login, logout, exigirLogin(), exigirPerfil()
-│   │   └── helpers.php     e(), url(), config(), moeda(), dataHoraBr()...
+│   │   ├── Auth.php        login, logout, sincronizar(), exigirLogin(), exigirPerfil()
+│   │   └── helpers.php     e(), url(), asset(), config(), moeda(), dataHoraBr()...
 │   ├── Controllers/        um por recurso: Filme, Sala, Sessao, Ingresso, Usuario, Auth, Inicio, Erro
 │   ├── Models/             um por tabela: Filme, Sala, Sessao, Ingresso, Usuario
 │   └── Views/              apenas HTML + PHP de apresentação
 │       ├── layout/         header, nav, flash, footer
 │       └── <recurso>/      lista.php, form.php, etc.
-├── config/                 database.php e app.php
+├── config/                 database.php, app.php e rotas.php
 ├── database/               schema.sql (tabelas) e seed.sql (dados de exemplo)
-└── docs/PLANO.md           plano de desenvolvimento seguido no projeto
+├── docs/                   PLANO.md (Trabalho 1) e PLANO2.md (Trabalho 2)
+├── .env.example            modelo da configuração local
+└── composer.json           autoload PSR-4 e packages
 ```
 
 ### Fluxo de uma requisição
 
-1. Toda URL tem a forma `index.php?page=filmes&acao=editar&id=3`.
-2. `public/index.php` carrega o núcleo, inicia a sessão e consulta o mapa `$rotas`, que associa cada `page` a um Controller.
-3. O valor de `acao` (padrão `index`) é o método chamado no Controller. Página ou método inexistente resulta em 404.
+1. Toda URL é tratada por `public/index.php`, por exemplo `/filmes/3/editar`.
+2. `index.php` carrega o autoload e o `.env`, inicia a sessão e sincroniza o usuário logado com o banco.
+3. `Router::resolver()` compara método HTTP e caminho com `config/rotas.php`. Rota inexistente resulta em 404.
 4. O Controller verifica permissão (`Auth::exigirLogin()` ou `Auth::exigirPerfil()`), usa o Model para ler/gravar e chama `renderizar()`, que inclui header, view e footer.
 5. Após um POST bem-sucedido, o Controller grava uma mensagem flash na sessão e redireciona (padrão POST-redirect-GET). Se houver erro de validação, a view é reexibida com os valores digitados e a mensagem abaixo de cada campo.
 6. Qualquer exceção não tratada é capturada em `index.php` e exibida na página 500.
@@ -198,11 +244,12 @@ BrutalCinema/
 ### Segurança
 
 - Senhas com `password_hash()` / `password_verify()`.
-- `session_regenerate_id()` no login.
-- Todas as consultas com **prepared statements** (`mysqli`), nunca concatenando valores do usuário.
-- Toda saída nas views passa por `e()` (`htmlspecialchars`).
+- `session_regenerate_id()` no login, e sessão sincronizada com o banco a cada requisição.
+- Todas as consultas com **prepared statements** do PDO, nunca concatenando valores do usuário.
+- Toda saída de texto nas views passa por `e()` (`htmlspecialchars`).
 - Ações que alteram dados (desativar, cancelar, sair) só aceitam **POST**.
 - Autorização por perfil no início de cada ação protegida, no servidor.
+- Credenciais fora do código, no arquivo `.env`.
 
 ## Regras de negócio e validações
 
@@ -224,17 +271,16 @@ Todas verificadas em PHP, no servidor. A validação HTML5 está desativada nos 
 - **Assentos não têm tabela própria**: são derivados das dimensões da sala e marcados como ocupados pelos ingressos existentes.
 - O status "encerrada" de uma sessão é apenas visual (calculado pela data), não é gravado no banco.
 - A máscara de CPF (`js/app.js`) é conveniência de interface; a verificação real (11 dígitos) é feita em PHP. Não há validação de dígito verificador do CPF.
-- Não há CSRF token nos formulários (previsto como melhoria para o Trabalho 2).
+- Não há CSRF token nos formulários.
+- As regras de sessão editável valem na interface; `SessaoController` ainda não bloqueia POST manual de um admin em sessão encerrada ou cancelada.
 - Não há paginação nas listagens.
 - Não há recuperação de senha.
 - Bootstrap e ícones vêm de CDN; sem internet a aplicação funciona, mas sem estilos.
-- Rotas no formato `index.php?page=...` (URLs transparentes ficam para o Trabalho 2).
 
 Nenhum bug conhecido no momento da entrega.
 
 ## Próximos trabalhos
 
-- **Trabalho 2**: Composer com autoload PSR-4 e namespaces, sistema de rotas com URLs transparentes, migração de `mysqli` para PDO, entidades tipadas, packages Composer e CSRF.
 - **Trabalho 3**: API REST em Laravel no mesmo domínio, com Sanctum, em repositório separado.
 
 ## Licença
